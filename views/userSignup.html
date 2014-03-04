@@ -18,73 +18,117 @@
     </div>
     
     <div class="row">
-    <form id="myForm" data-abide>
-       <div class="email-id">
-         <label for="email">Email </label>
-         <input type="email" name="email" placeholder="Email Address" required>
+    <form id="myForm" data-abide="ajax">
+       <div class="row">
+       <div class="email-id columns large-6 medium-6 small-12">
+         <label for="email">Email <span class="hide err-email"></span> </label>
+         <input type="email" id="email" name="email" placeholder="Email Address" required>
          <small class="error">An email address is required.</small>
        </div>
+
+       <div class="username columns large-6 medium-6 small-12">
+         <label for="username">Username <span class="hide err-username"></span></label>
+         <input type="text" id="user-name" name="username" placeholder="Username" required pattern="alpha">
+         <small class="error">A valid username is required</small>
+       </div>
+       </div>
        
-       <div class="password">
+       <div class="row"> 
+       <div class="password columns large-6 medium-6 small-12">
          <label for="password">Password</label>
          <input type="password" name="password" id="password" required>
          <small class="error">The password did not match Req</small>
        </div>
 
-       <div class="confirm-password">
+       <div class="confirm-password columns large-6 medium-6 small-12">
          <label for="password2">Confirm Password</label>
          <input type="password"  name="password2" required data-equalto="password">
          <small class="error">The password did not match</small>
        </div>
+       </div>
        
-       <div class="first-name">
+       <div class="row">
+       <div class="first-name columns large-6 medium-6 small-12">
          <label for="first">First Name </label>
          <input type="text" name="first" placeholder="First Name" pattern="alpha" required>
          <small class="error">Name is required and must be a string.</small>
        </div>
-       <div class="last-name">
+       <div class="last-name columns large-6 medium-6 small-12">
          <label for="last">Last Name </label>
          <input type="text" name="last" placeholder="Last Name" pattern="alpha" required>
          <small class="error">Name is required and must be a string.</small>
        </div>
+       </div>
 
-       <div class="location">
+       <div class="row">
+       <div class="location columns large-6 medium-6 small-12">
         <label>Location
         <select name="location">
           <option value="Borivali-East">Borivali-East</option>
           <option value="Borivali-West">Borivali-West</option>
-          <option value="Goregaon-East">Hot Dog</option>
-          <option value="Goregaon-West">Apollo</option>
+          <option value="Goregaon-East">Goregaon-East</option>
+          <option value="Goregaon-West">Goregaon-West</option>
         </select>
         </label>
        </div>
-
+       </div>
+       
        <div class="submit">
          <button type="submit">Submit</button>
        </div>
 
+       <div class="row server-error">
+         {{server-error}}
+       </div>
+
     </form>
     </div>
-
-    
-    
-    
-    
-    
-    
-    
 
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/foundation.min.js"></script>
   <script src="/javascripts/foundation/foundation.abide.js"></script>
 
   <script>
+    $('#email').on('blur', function() {
+      if(!($('#email').attr('data-invalid')=="")){
+        var toSend = {emailAdd : $('#email').val()};
+        $.post("/newUserEmail", toSend ,function(data, status){
+            if(data.isAvail && data.isValid)
+            {
+              $('.err-email').css({"color":"#43ac6a"}).show().html("Valid Email");
+            }
+            else
+            { 
+              $('.err-email').css({"color":"#f04124"}).show().html("The Email is already registered");
+            }
+        });  
+      }
+    });
+
+    $('#user-name').on('blur', function() {
+      if(!($(this).attr('data-invalid')=="")){
+        var toSend = {emailAdd : $('#email').val()};
+        $.post("/newUserName", toSend, function(data, stat) {
+          if(data.isAvail && data.isValid)
+            {
+              console.log("Available");
+              $('.err-username').css({"color":"#43ac6a"}).show().html("The Username is available");
+            }
+            else
+            { 
+              $('.err-username').css({"color":"#f04124"}).show().html("The Username is Not available");
+            } 
+        });  
+      }
+    });
+
+
     $('#myForm').on('invalid', function () {
       var invalid_fields = $(this).find('[data-invalid]');
       console.log(invalid_fields);
-    }).on('valid', function () {
+    }).on('valid', function (){
       console.log('valid!');
-      $.getJSON('/getUser',function() {console.log("Boo")});
+      
     });
   </script>
   <script>

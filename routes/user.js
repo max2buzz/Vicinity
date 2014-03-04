@@ -20,3 +20,12 @@ exports.showUserProfile = function(req, res){
 exports.getPost = function(req, res){
   
 };
+
+
+exports.checkEmail = function(req, res){
+  res.json({isAvail:false, isValid:true});
+};
+
+exports.checkUserName = function(req, res){
+  res.json({isAvail:false, isValid:true});
+};
