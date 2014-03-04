@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vicinity Explorer</title>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet" href="/stylesheets/foundation.min.css">
+</head>
+<body>
+
+    <div class="row">
+        <center>
+            <h1>Create An Account</h1>
+        </center>
+    </div>
+    
+    <div class="row">
+    <form id="myForm" data-abide>
+       <div class="email-id">
+         <label for="email">Email </label>
+         <input type="email" name="email" placeholder="Email Address" required>
+         <small class="error">An email address is required.</small>
+       </div>
+       
+       <div class="password">
+         <label for="password">Password</label>
+         <input type="password" name="password" id="password" required>
+         <small class="error">The password did not match Req</small>
+       </div>
+
+       <div class="confirm-password">
+         <label for="password2">Confirm Password</label>
+         <input type="password"  name="password2" required data-equalto="password">
+         <small class="error">The password did not match</small>
+       </div>
+       
+       <div class="first-name">
+         <label for="first">First Name </label>
+         <input type="text" name="first" placeholder="First Name" pattern="alpha" required>
+         <small class="error">Name is required and must be a string.</small>
+       </div>
+       <div class="last-name">
+         <label for="last">Last Name </label>
+         <input type="text" name="last" placeholder="Last Name" pattern="alpha" required>
+         <small class="error">Name is required and must be a string.</small>
+       </div>
+
+       <div class="location">
+        <label>Location
+        <select name="location">
+          <option value="Borivali-East">Borivali-East</option>
+          <option value="Borivali-West">Borivali-West</option>
+          <option value="Goregaon-East">Hot Dog</option>
+          <option value="Goregaon-West">Apollo</option>
+        </select>
+        </label>
+       </div>
+
+       <div class="submit">
+         <button type="submit">Submit</button>
+       </div>
+
+    </form>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/foundation.min.js"></script>
+  <script src="/javascripts/foundation/foundation.abide.js"></script>
+
+  <script>
+    $('#myForm').on('invalid', function () {
+      var invalid_fields = $(this).find('[data-invalid]');
+      console.log(invalid_fields);
+    }).on('valid', function () {
+      console.log('valid!');
+      $.getJSON('/getUser',function() {console.log("Boo")});
+    });
+  </script>
+  <script>
+    $(document).foundation();
+
+  </script>
+
+</body>
+</html>

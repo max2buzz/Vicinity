@@ -5,7 +5,7 @@ exports.list = function(req, res){
 
 
 exports.showSignUpPage = function(req, res) {
-
+	res.render("userSignup");
 };
 
 exports.showUserDashboard = function(req, res){
