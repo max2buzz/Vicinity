@@ -1,7 +1,5 @@
 #Vicinity
 
-=======
-
 ##BE Project Main Files
 
 ###TODO
