@@ -7,6 +7,7 @@
   <title>Vicinity Explorer | SignUp </title>
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -106,20 +107,20 @@
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/foundation.min.js"></script>
   <script src="/javascripts/foundation/foundation.abide.js"></script>
+  <script src="/javascripts/toastr.min.js"></script>
   <script>
   (function(){
-    console.log("ASDSADSADA");
     $('#email').on('blur', function() {
       if(!($('#email').attr('data-invalid')=="")){
         var toSend = {emailAdd : $('#email').val()};
         $.post("/newUserEmail", toSend ,function(data, status){
             if(data.isAvail && data.isValid)
             {
-              $('.err-email').css({"color":"#43ac6a"}).show().html("Valid Email");
+              $('.err-email').css({"color":"#43ac6a"}).hide().html("The Email is valid").fadeIn(799);
             }
             else
             { 
-              $('.err-email').css({"color":"#f04124"}).show().html("The Email is already registered");
+              $('.err-email').css({"color":"#f04124"}).hide().html("The Email is already registered").fadeIn(799);
             }
         });  
       }
@@ -133,11 +134,11 @@
           if(data.isAvail && data.isValid)
             {
               console.log("Available");
-              $('.err-username').css({"color":"#43ac6a"}).show().html("The Username is available");
+              $('.err-username').css({"color":"#43ac6a"}).hide().html("The Username is available").fadeIn(799);
             }
             else
             { 
-              $('.err-username').css({"color":"#f04124"}).show().html("The Username is Not available");
+              $('.err-username').css({"color":"#f04124"}).hide().html("The Username is Not available").fadeIn(799);
             } 
         });  
       }
@@ -161,8 +162,14 @@
         location: $('select[name="location"]').val()
       };
       console.log(formdata);
-      $.post('/signUpUser', formdata, function() {
-        console.log("Posted Form");
+      $.post('/signUpUser', formdata, function(data) {
+        if(data.userAdded){
+          window.location = data.redirectTo;
+        }
+        else{
+          toastr.error('I do not think that word means what you think it means.', 'Inconceivable!');
+          $('.server-error').hide().html("Some Error in Server").fadeIn(799);
+        }
 
       });
     });

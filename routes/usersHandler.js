@@ -21,9 +21,9 @@ function UsersHandler(db) {
 
         users.findOne(query, function(err, doc) {
             if (err) {
-                return callback(null);
+                return callback(err, null);
             } else {
-                return callback(doc);
+                return callback(null, doc);
             }
         });
     }
@@ -35,11 +35,12 @@ function UsersHandler(db) {
             userName: username
         };
 
+
         users.findOne(query, function(err, doc) {
             if (err) {
-                return callback(null);
+                return callback(null, null);
             } else {
-                return callback(doc);
+                return callback(null, doc);
             }
         });
     }

@@ -22,7 +22,11 @@ exports.showSignUpPage = function(req, res) {
 };
 
 exports.showUserDashboard = function(req, res) {
-    res.render("userDashboard");
+    if ((req.session.user === undefined))
+        res.redirect("/");
+    else
+        res.render('userDashboard');
+
 };
 
 
@@ -56,7 +60,8 @@ exports.handleSignUp = function(req, res) {
         } else {
             req.session.user = b.username;
             res.json({
-                userAdded: true
+                userAdded: true,
+                redirectTo: '/user'
             });
         }
 
@@ -86,7 +91,9 @@ exports.checkEmail = function(req, res) {
 };
 
 exports.checkUserName = function(req, res) {
+
     var username = req.body.userName;
+
 
     userHandler.getUserByUserName(username, function(err, doc) {
         if (doc) {
