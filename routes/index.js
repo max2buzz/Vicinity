@@ -4,20 +4,22 @@ var publisher = require('./publisher');
 
 module.exports = exports = function(app, db) {
 
-	//User Routes
-	app.get('/', content.showIndexPage );
-	app.get('/signup', user.showSignUpPage );
-	app.get('/user', user.showUserDashboard );
-	app.get('/user/:name', user.showUserProfile);
-	app.get('/user/p/:id' ,user.getPost);
-
-	app.post("/newUserEmail",user.checkEmail);
-	app.post('/newUserName', user.checkUserName );
-	
+    user.setdb(db);
 
 
-	// Publisher Routes
-	app.get('/publisher', publisher.showPubIndex);
-	
+    //User Routes
+    app.get('/', content.showIndexPage);
+    app.get('/signup', user.showSignUpPage);
+    app.get('/user', user.showUserDashboard);
+    app.get('/user/:name', user.showUserProfile);
+    app.get('/user/p/:id', user.getPost);
+
+    app.post("/newUserEmail", user.checkEmail);
+    app.post('/newUserName', user.checkUserName);
+    app.post("/signUpUser", user.handleSignUp);
+
+
+    // Publisher Routes
+    app.get('/publisher', publisher.showPubIndex);
+
 }
-

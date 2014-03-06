@@ -3,7 +3,7 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var app = express();
-var mongoose = require('mongoose');
+MongoClient = require('mongodb').MongoClient;
 var cons = require('consolidate');
 
 app.set('port', process.env.PORT || 3000);
@@ -27,8 +27,16 @@ if ('development' == app.get('env')) {
 
 
 //Route Handline
-routes(app);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+MongoClient.connect('mongodb://localhost:27017/Vicinity', function(err, db) {
+	
+	if (err) {throw err;}		
+
+	routes(app,db);
+	
+	http.createServer(app).listen(app.get('port'), function(){
+  		console.log('Express server listening on port ' + app.get('port'));
+	});
+
 });
+

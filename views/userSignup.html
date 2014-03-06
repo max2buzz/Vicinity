@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
 <html class="no-js" lang="en" >
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vicinity Explorer</title>
+  <title>Vicinity Explorer | SignUp </title>
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
 </head>
@@ -14,6 +13,7 @@
     <div class="row">
         <center>
             <h1>Create An Account</h1>
+            <h3>Signup</h3>
         </center>
     </div>
     
@@ -50,15 +50,34 @@
        <div class="row">
        <div class="first-name columns large-6 medium-6 small-12">
          <label for="first">First Name </label>
-         <input type="text" name="first" placeholder="First Name" pattern="alpha" required>
+         <input type="text" name="first" id="firstName" placeholder="First Name" pattern="alpha" required>
          <small class="error">Name is required and must be a string.</small>
        </div>
        <div class="last-name columns large-6 medium-6 small-12">
          <label for="last">Last Name </label>
-         <input type="text" name="last" placeholder="Last Name" pattern="alpha" required>
+         <input type="text" name="last" id="lastName"placeholder="Last Name" pattern="alpha" required>
          <small class="error">Name is required and must be a string.</small>
        </div>
        </div>
+
+      <div class="gender large-6 columns">
+      <label>Gender</label>
+      <input type="radio" name="gender" value="Male"   id="Male" checked><label for="Male">Male</label>
+      <input type="radio" name="gender" value="Female" id="Female"><label for="Female">Female</label>
+      </div>
+
+      <!-- <div class="birthday columns large-6">
+        <div class="row">
+        <label for="birthday"  class="large-4 columns">DD</label>
+        <label for="birthMonth"  class="large-4 columns">MM</label>
+        <label for=""  class="large-4 columns">YYYY</label>
+        </div>
+        <div class="row">
+        <div class="large-3 medium-4 small-4 columns"  > <input type="text" maxlength="2"></div>
+        <div class="large-3 medium-4 small-4 columns"  > <input type="text" maxlength="2"></div>
+        <div class="large-4 medium-4 small-4 columns"  > <input type="text" maxlength="4"></div>
+        </div>
+      </div> -->
 
        <div class="row">
        <div class="location columns large-6 medium-6 small-12">
@@ -78,7 +97,7 @@
        </div>
 
        <div class="row server-error">
-         {{server-error}}
+         {{serverError}}
        </div>
 
     </form>
@@ -87,8 +106,9 @@
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/foundation.min.js"></script>
   <script src="/javascripts/foundation/foundation.abide.js"></script>
-
   <script>
+  (function(){
+    console.log("ASDSADSADA");
     $('#email').on('blur', function() {
       if(!($('#email').attr('data-invalid')=="")){
         var toSend = {emailAdd : $('#email').val()};
@@ -106,8 +126,9 @@
     });
 
     $('#user-name').on('blur', function() {
-      if(!($(this).attr('data-invalid')=="")){
-        var toSend = {emailAdd : $('#email').val()};
+      if(!($('#user-name').attr('data-invalid')=="")){
+        console.log("Valid");
+        var toSend = {userName : $('#user-name').val()};
         $.post("/newUserName", toSend, function(data, stat) {
           if(data.isAvail && data.isValid)
             {
@@ -125,11 +146,28 @@
 
     $('#myForm').on('invalid', function () {
       var invalid_fields = $(this).find('[data-invalid]');
-      console.log(invalid_fields);
-    }).on('valid', function (){
-      console.log('valid!');
       
+    }).on('valid', function (){
+      var formdata = {
+        email :   $('input[name="email"]').val(),
+        username: $('input[name="username"]').val(),
+        password: $('input[name="password"]').val(),  
+        password2:$('input[name="password2"]').val(),
+        name:{
+          first: $('input[name="first"]').val(),
+          last:  $('input[name="last"]').val()
+        },
+        gender:   $('input[name="gender"]').val(),
+        location: $('select[name="location"]').val()
+      };
+      console.log(formdata);
+      $.post('/signUpUser', formdata, function() {
+        console.log("Posted Form");
+
+      });
     });
+
+  })();
   </script>
   <script>
     $(document).foundation();
