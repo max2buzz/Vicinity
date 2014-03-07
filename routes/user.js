@@ -25,7 +25,9 @@ exports.showUserDashboard = function(req, res) {
     if ((req.session.user === undefined))
         res.redirect("/");
     else
-        res.render('userDashboard');
+        res.render('userDashboard', {
+            user: req.session.users
+        });
 
 };
 
@@ -66,6 +68,34 @@ exports.handleSignUp = function(req, res) {
         }
 
     });
+};
+
+
+exports.handleLogin = function(req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+    userHandler.validateUser(username, password, function(err, doc) {
+        if (doc) {
+            req.session.user = username;
+            res.redirect("/user");
+        } else {
+            req.session.serror = "Invalid Username and/or password";
+            res.redirect("/");
+        }
+    });
+};
+
+exports.handleLogout = function(req, res) {
+    console.log("HELLO");
+    console.log(req.session.user);
+    if (req.session.user === undefined) {
+        res.redirect("/");
+    } else {
+        delete req.session.user;
+        console.log(req.session.user);
+        res.redirect("/");
+    }
+
 };
 
 

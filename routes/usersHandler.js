@@ -29,6 +29,27 @@ function UsersHandler(db) {
     }
 
 
+    this.validateUser = function(username, password, callback) {
+        var query = {
+            userName: username
+        }
+
+        users.findOne(query, function(err, doc) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                if (doc && doc.password == password) {
+                    return callback(null, doc);
+                } else {
+                    return callback("10110", null);
+                }
+
+            }
+
+        });
+    };
+
+
     this.getUserByUserName = function(username, callback) {
 
         var query = {

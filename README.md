@@ -5,8 +5,8 @@
 ###TODO
 
 
-- Complete the Signup Form
-- Handle Signup Submission
-- Storeage of Signup in DB
 - User Dashboard Design
 - Moment.js to handle timings
+- Publisher SignUP and Login
+- Edit/View/Create/Delete Post
+- Moderator Login
