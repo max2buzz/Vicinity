@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vicinity Explorer | SignUp </title>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet" href="/stylesheets/foundation.min.css">
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+</head>
+<body>
+<nav class="top-bar " data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1>
+                    <a href="#">Vicinity
+                        <strong>Explorer</strong>
+                    </a>
+                </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+                <a href="#">
+                    <span>Menu</span>
+                </a>
+            </li>
+    </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li>
+                    <a href="#">Books</a>
+                </li>
+                <li>
+                    <a href="#">Nearby</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+
+            </ul>
+    </section>
+    </nav>
+
+    <div class="row">
+        <center>
+            <h1>Publish your contents</h1>
+            <h3>Make an account</h3>
+        </center>
+    </div>
+    
+    <div class="row">
+    <form id="myForm" data-abide="ajax">
+       <div class="row">
+       <div class="email-id columns large-6 medium-6 small-12">
+         <label for="email">Email <span class="hide err-email"></span> </label>
+         <input type="email" id="email" name="email" placeholder="Email Address" required>
+         <small class="error">An email address is required.</small>
+       </div>
+
+       <div class="orgname columns large-6 medium-6 small-12">
+         <label for="orgname">Organization Name <span class="hide err-orgname"></span></label>
+         <input type="text" id="org-name" name="orgname" placeholder="ABC Inc." required pattern="alpha">
+         <small class="error">A valid Name is required</small>
+       </div>
+       </div>
+       
+       <div class="row"> 
+       <div class="password columns large-6 medium-6 small-12">
+         <label for="password">Password</label>
+         <input type="password" name="password" id="password" required>
+         <small class="error">The password did not match Req</small>
+       </div>
+
+       <div class="confirm-password columns large-6 medium-6 small-12">
+         <label for="password2">Confirm Password</label>
+         <input type="password"  name="password2" required data-equalto="password">
+         <small class="error">The password did not match</small>
+       </div>
+       </div>
+       
+      <!-- <div class="birthday columns large-6">
+        <div class="row">
+        <label for="birthday"  class="large-4 columns">DD</label>
+        <label for="birthMonth"  class="large-4 columns">MM</label>
+        <label for=""  class="large-4 columns">YYYY</label>
+        </div>
+        <div class="row">
+        <div class="large-3 medium-4 small-4 columns"  > <input type="text" maxlength="2"></div>
+        <div class="large-3 medium-4 small-4 columns"  > <input type="text" maxlength="2"></div>
+        <div class="large-4 medium-4 small-4 columns"  > <input type="text" maxlength="4"></div>
+        </div>
+      </div> -->
+
+       <div class="row">
+       <div class="location columns large-6 medium-6 small-12">
+        <label>Subscription
+        <select name="subscription">
+          <option value="Monthly">Monthly </option>
+          <option value="Quaterly">Quaterly</option>
+          <option value="Yearly">Yearly</option>
+        </select>
+        </label>
+       </div>
+       <div class="pay columns large-6 medium-6 small-12">
+         <h4><span class="money"></span></h4> 
+       </div>
+
+       </div>
+        
+       <div class="submit">
+         <button type="submit">Submit</button>
+       </div>
+
+       <div class="row server-error">
+         {{serverError}}
+       </div>
+
+    </form>
+    </div>
+
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/foundation.min.js"></script>
+  <script src="/javascripts/foundation/foundation.abide.js"></script>
+  <script src="/javascripts/toastr.min.js"></script>
+  <script>
+  (function(){
+    var map = {
+        "Monthly" :  "25",
+        "Quaterly" : "50",
+        "Yearly"   : "75"
+    };
+    var valueNor = $('select[name="subscription"]').val();
+    var valDol = map[valueNor];
+    $('.money').html("$"+valDol);
+
+    $('select[name="subscription"]').on('change', function() { 
+      $('.money').slideToggle(10);
+      var valueNor = $('select[name="subscription"]').val();
+      var valDol = map[valueNor];
+      $('.money').html("$"+valDol).slideToggle(300);
+      
+    });
+
+    
+    $('#email').on('blur', function() {
+      if(!($('#email').attr('data-invalid')=="")){
+        var toSend = {emailAdd : $('#email').val()};
+        $.post("/newPublisherEmail", toSend ,function(data, status){
+            if(data.isAvail && data.isValid)
+            {
+              $('.err-email').css({"color":"#43ac6a"}).hide().html("The Email is valid").fadeIn(799);
+            }
+            else
+            { 
+              $('.err-email').css({"color":"#f04124"}).hide().html("The Email is already registered").fadeIn(799);
+            }
+        });  
+      }
+    });
+
+    $('#myForm').on('invalid', function () {
+      var invalid_fields = $(this).find('[data-invalid]');
+      
+    }).on('valid', function (){
+      var formdata = {
+        email :   $('input[name="email"]').val(),
+        organizationName: $('input[name="orgname"]').val(),
+        password: $('input[name="password"]').val(),  
+        password2:$('input[name="password2"]').val(),
+        subscription: $('select[name="subscription"]').val()
+      };
+      console.log(formdata);
+      $.post('/signUpPublisher', formdata, function(data) {
+        if(data.userAdded){
+          window.location = data.redirectTo;
+        }
+        else{
+          toastr.error('Server Error', 'Error Signing Up');
+          $('.server-error').hide().html("Some Error in Server").fadeIn(799);
+        }
+
+      });
+    });
+
+  })();
+  </script>
+  <script>
+    $(document).foundation();
+
+  </script>
+
+</body>
+</html>

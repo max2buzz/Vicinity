@@ -43,8 +43,8 @@ exports.getPost = function(req, res) {
 exports.handleSignUp = function(req, res) {
     var b = req.body;
     var user = {
-        _id: b.email,
-        userName: b.username,
+        _id: b.email.toLowerCase(),
+        userName: b.username.toLowerCase(),
         password: b.password,
         name: b.name,
         gender: b.gender,
@@ -72,7 +72,7 @@ exports.handleSignUp = function(req, res) {
 
 
 exports.handleLogin = function(req, res) {
-    var username = req.body.username;
+    var username = req.body.username.toLowerCase();
     var password = req.body.password;
     userHandler.validateUser(username, password, function(err, doc) {
         if (doc) {

@@ -5,7 +5,7 @@ var publisher = require('./publisher');
 module.exports = exports = function(app, db) {
 
     user.setdb(db);
-
+    publisher.setdb(db);
 
     //User Routes
     app.get('/', content.showIndexPage);
@@ -26,5 +26,7 @@ module.exports = exports = function(app, db) {
     app.get('/publisher/p/new', publisher.createPost);
     app.get('/publisher/p/:id', publisher.getPost);
     app.get('/publisher/p/:id/edit', publisher.editPost);
+
+    app.post('/signUpPublisher', publisher.handleSignUp);
 
 };

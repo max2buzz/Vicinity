@@ -1,9 +1,11 @@
 viewport { width:device-width; scale:1; }
 
 body{
-    background-color:rgb(231,231,231);
-    background-image:url(/images/content/bgl1.png);
+    background-color:#EDECE4;
+    /*background-image:url(/images/content/bgl1.png);*/
 }
+
+.panel
 
 /*.major{
     background-size:100%;
