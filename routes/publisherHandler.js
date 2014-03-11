@@ -22,6 +22,43 @@ function PublisherHandler(db) {
     };
 
 
+    this.getPublisherByEmail = function(email, callback) {
+
+
+        var query = {
+            _id: email
+        };
+
+        publishers.findOne(query, function(err, doc) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                return callback(null, doc);
+            }
+        });
+    };
+
+    this.validateUser = function(useremail, password, callback) {
+        var query = {
+            _id: useremail
+        };
+
+        publishers.findOne(query, function(err, doc) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                if (doc && doc.password == password) {
+                    return callback(null, doc);
+                } else {
+                    return callback("10110", null);
+                }
+
+            }
+
+        });
+    };
+
+
 
 }
 

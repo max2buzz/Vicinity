@@ -12,17 +12,28 @@ exports.setdb = function(datab) {
 
 
 exports.showPubIndex = function(req, res) {
-    res.send("GREAT WORK");
+    var serveError = "";
+
+    if (!(req.session.serror === undefined)) {
+        serveError = (req.session.serror);
+    }
+    delete req.session.serror;
+
+    if ((req.session.publisher === undefined)) {
+        res.render("publisherIndex", {
+            error: serveError
+        });
+    } else
+        res.render('publisherDashboard', {
+            publisher: req.session.publisher
+        });
+
 };
 
 exports.showPubSignup = function(req, res) {
     res.render("publisherSignup", {
         serverError: ""
     });
-};
-
-exports.showPubDash = function(req, res) {
-
 };
 
 exports.showPubProfile = function(req, res) {
@@ -46,6 +57,26 @@ exports.deletePost = function(req, res) {
 
 };
 
+exports.checkEmail = function(req, res) {
+
+    var email = req.body.emailAdd;
+
+    publisherHandler.getPublisherByEmail(email, function(err, doc) {
+        if (doc) {
+            res.json({
+                isAvail: false,
+                isValid: true
+            });
+        } else {
+            res.json({
+                isAvail: true,
+                isValid: true
+            });
+        }
+
+    });
+};
+
 
 function getMonthsBySus(type) {
     var map = {
@@ -56,6 +87,33 @@ function getMonthsBySus(type) {
 
     return map[type];
 }
+
+
+exports.handleLogin = function(req, res) {
+    var useremail = req.body.useremail.toLowerCase();
+    var password = req.body.password;
+    publisherHandler.validateUser(useremail, password, function(err, doc) {
+        if (doc) {
+            req.session.publisher = doc._id;
+            res.redirect("/publisher");
+        } else {
+            req.session.serror = "Invalid Username and/or password";
+            res.redirect("/publisher");
+        }
+    });
+};
+
+
+exports.handleLogout = function(req, res) {
+    if (req.session.publisher === undefined) {
+
+    } else {
+        delete req.session.publisher;
+    }
+    res.redirect("/publisher");
+
+};
+
 
 exports.handleSignUp = function(req, res) {
     var b = req.body;
@@ -80,13 +138,11 @@ exports.handleSignUp = function(req, res) {
             });
 
         } else {
-            req.session.publisher = b.username;
+            req.session.publisher = b.email;
             res.json({
                 userAdded: true,
                 redirectTo: '/publisher'
             });
         }
     });
-
-
 };

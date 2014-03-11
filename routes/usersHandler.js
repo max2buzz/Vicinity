@@ -32,7 +32,7 @@ function UsersHandler(db) {
     this.validateUser = function(username, password, callback) {
         var query = {
             userName: username
-        }
+        };
 
         users.findOne(query, function(err, doc) {
             if (err) {

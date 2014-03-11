@@ -4,11 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vicinity Explorer</title>
+  <title>Vicinity Explorer | Publisher</title>
   <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
-  <!-- <link rel="stylesheet" href="/stylesheets/indexPageS.css"> -->
 </head>
 <body>
   <nav class="top-bar " data-topbar>
@@ -30,10 +29,10 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 <li>
-                    <a href="/signup">Sign Up</a>
+                    <a href="/publisher/signup">Sign Up</a>
                 </li>
                 <li>
-                    <a href="/publisher">Publisher</a>
+                    <a href="/">User</a>
                 </li>
                 <li>
                     <a href="/contact">Contact</a>
@@ -58,16 +57,16 @@
       <div class="row">
       <div class="large-7 medium-7 small-12 columns">
         <div class="panel">
-          <h3>Vicinity Explorer gets you in touch with the latest events happening in your vicinity</h2>
+          <h3>Vicinity Explorer lets you advertise events to the people nearby</h2>
           <h4>Not A member yet? Register Yourself</h3>
-          <p><a href="/signup" class="button">SIGN UP</a></p>
+          <p><a href="/publisher/signup" class="button">SIGN UP</a></p>
         </div>
       </div>
       <div class="large-4 medium-5 small-12 columns">
         <div class="formSignIN panel">
-          <form action="/user/login" method="POST">
-            <label for="username">Username</label>
-            <input type="text" name="username">
+          <form action="/publisher/login" method="POST">
+            <label for="username">Email</label>
+            <input type="text" name="useremail">
             <br>
             <label for="username">Password</label>
             <input type="password" name="password">
@@ -91,7 +90,7 @@
     var err = "{{error}}"
     console.log(err);
     if (err==="") {
-      toastr.success('Welcome', 'Login Or Register');
+      
     }
     else{
       toastr.error("","{{error}}");  

@@ -26,7 +26,7 @@ exports.showUserDashboard = function(req, res) {
         res.redirect("/");
     else
         res.render('userDashboard', {
-            user: req.session.users
+            user: req.session.user
         });
 
 };
@@ -86,7 +86,6 @@ exports.handleLogin = function(req, res) {
 };
 
 exports.handleLogout = function(req, res) {
-    console.log("HELLO");
     console.log(req.session.user);
     if (req.session.user === undefined) {
         res.redirect("/");
