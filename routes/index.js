@@ -24,12 +24,13 @@ module.exports = exports = function(app, db) {
     app.get('/publisher', publisher.showPubIndex);
     app.get('/publisher/signup', publisher.showPubSignup);
     app.get('/publisher/logout', publisher.handleLogout);
-    app.get('/publisher/p/new', publisher.createPost);
-    app.get('/publisher/p/:id', publisher.getPost);
-    app.get('/publisher/p/:id/edit', publisher.editPost);
+    app.get('/publisher/p/new', publisher.isPubLog, publisher.createPost);
+    app.get('/publisher/p/:id', publisher.isPubLog, publisher.getPost);
+    app.get('/publisher/p/:id/edit', publisher.isPubLog, publisher.editPost);
 
 
     app.post('/signUpPublisher', publisher.handleSignUp);
     app.post("/newPublisherEmail", publisher.checkEmail);
     app.post('/publisher/login', publisher.handleLogin);
+    app.post('/publisher/p/publish', publisher.handlePostSubmission);
 };

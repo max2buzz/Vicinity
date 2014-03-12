@@ -30,6 +30,7 @@ function PublisherHandler(db) {
         };
 
         publishers.findOne(query, function(err, doc) {
+            console.log(doc);
             if (err) {
                 return callback(err, null);
             } else {
@@ -61,6 +62,4 @@ function PublisherHandler(db) {
 
 
 }
-
-
 module.exports.PublisherHandler = PublisherHandler;

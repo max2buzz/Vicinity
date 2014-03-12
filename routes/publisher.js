@@ -1,12 +1,15 @@
 PublisherHandler = require('./publisherHandler').PublisherHandler;
+ContentHandler = require('./contenHandler').ContentHandler;
+
 var moment = require('moment');
 
 var db = "";
-
 var publisherHandler = "";
+var contentHandler = "";
 
 exports.setdb = function(datab) {
     db = datab;
+    contentHandler = new ContentHandler(db);
     publisherHandler = new PublisherHandler(db);
 };
 
@@ -45,7 +48,16 @@ exports.getPost = function(req, res) {
 
 };
 
+exports.isPubLog = function(req, res, next) {
+    if (req.session.publisher === undefined) {
+        return res.redirect('/publisher');
+    } else {
+        next();
+    }
+};
+
 exports.createPost = function(req, res) {
+    console.log(req.session.publisherd);
     res.render("postCreate", {
         publisher: req.session.publisher
     });
@@ -56,6 +68,49 @@ exports.editPost = function(req, res) {
 };
 
 exports.deletePost = function(req, res) {
+
+};
+
+
+// var getCurrentPublisher = function(req) {
+//     console.log(req.session.publisher);
+//     publisherHandler.getPublisherByEmail(req.session.publisher, function(err, doc) {
+//         if (doc) {
+//             return doc;
+//         } e lse {
+//             return null;
+//         }
+//     });
+// };
+
+exports.handlePostSubmission = function(req, res) {
+    var currentPub = req.session.publisherd;
+
+    var b = req.body;
+    var post = {
+        title: b.title,
+        body: b.body,
+        tags: b.tags,
+        location: b.location,
+        publishedBy: currentPub.OrganizationName,
+        publishedAt: moment().format(),
+        status: 2,
+    };
+
+    contentHandler.publishPost(post, function(doc) {
+        if (doc) {
+            res.json({
+                posted: true,
+                id: doc._id
+            });
+        } else {
+            res.json({
+                posted: false,
+                id: doc._id
+            });
+        }
+    });
+
 
 };
 
@@ -97,6 +152,7 @@ exports.handleLogin = function(req, res) {
     publisherHandler.validateUser(useremail, password, function(err, doc) {
         if (doc) {
             req.session.publisher = doc._id;
+            req.session.publisherd = doc;
             res.redirect("/publisher");
         } else {
             req.session.serror = "Invalid Username and/or password";
@@ -141,6 +197,7 @@ exports.handleSignUp = function(req, res) {
 
         } else {
             req.session.publisher = b.email;
+            req.session.publisherd = publisher;
             res.json({
                 userAdded: true,
                 redirectTo: '/publisher'

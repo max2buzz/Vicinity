@@ -1,13 +1,16 @@
-UsersHandler = require('./usersHandler').UsersHandler;
+var UsersHandler = require('./usersHandler').UsersHandler;
+var ContentHandler = require('./contenHandler').ContentHandler;
 var moment = require('moment');
 
 var db = "";
 
 var userHandler = "";
+var contentHandler = "";
 
 exports.setdb = function(datab) {
     db = datab;
     userHandler = new UsersHandler(db);
+    contentHandler = new ContentHandler(db);
 };
 
 exports.list = function(req, res) {
@@ -21,13 +24,25 @@ exports.showSignUpPage = function(req, res) {
     });
 };
 
+
 exports.showUserDashboard = function(req, res) {
     if ((req.session.user === undefined))
         res.redirect("/");
-    else
-        res.render('userDashboard', {
-            user: req.session.user
-        });
+    contentHandler.getPostByLocation(req.session.userloc, function(err, docs) {
+        if (docs) {
+            res.render('userDashboard', {
+                loc: req.session.userloc,
+                user: req.session.user,
+                posts: docs
+            });
+        } else {
+            res.render('userDashboard', {
+                loc: req.session.userloc,
+                user: req.session.user,
+                posts: null
+            });
+        }
+    });
 
 };
 
@@ -61,6 +76,7 @@ exports.handleSignUp = function(req, res) {
 
         } else {
             req.session.user = b.username;
+            req.session.userloc = b.location;
             res.json({
                 userAdded: true,
                 redirectTo: '/user'
@@ -77,6 +93,7 @@ exports.handleLogin = function(req, res) {
     userHandler.validateUser(username, password, function(err, doc) {
         if (doc) {
             req.session.user = username;
+            req.session.userloc = doc.locationId;
             res.redirect("/user");
         } else {
             req.session.serror = "Invalid Username and/or password";

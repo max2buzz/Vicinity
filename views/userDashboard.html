@@ -8,6 +8,19 @@
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
   <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  <style>
+    .postsHolder{
+        margin-top: 3vh;
+        margin0-left: 1vw;
+        padding-top: 10px;
+        padding-left: 10px;
+    }
+
+    .postBox{
+        border: 1px solid black;
+    }
+
+  </style>
 </head>
 <body>
  <body>
@@ -41,11 +54,45 @@
                 <li>
                     <a href="/user/logout">Logout</a>
                 </li>
-
             </ul>
 		</section>
     </nav>
 
+    <div class="postsHolder clearfix">
+    <h3>Trending In {{loc}}</h3>
+    
+        {% for post in posts %}
+        {% if loop.first %}<div class="main">{% endif %}
+                
+                    <div class="postBox small-12 medium-12 large-12 columns">
+                        <h2>{{post.title}}</h2>
+                        <div class="render">{{post.body}}</div>
+                        <p class="lead">By {{post.publishedBy}}</p>
+                        <p>
+                            {{post.publishedAt}}
+                        </p>
+                    </div>
+                
+        {% if loop.last %}</ul>{% endif %}
+    {% endfor %}
+    </div>
+    </div>
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/foundation/foundation.js"></script>
+    <script src="/javascripts/foundation/foundation.reveal.js"></script>
+    <script src="/javascripts/marked.js"></script>
+    <script src="/javascripts/toastr.min.js"></script>
+    <script>
+    (function(){
+        $('.render').each(function(index,el) {
+            var curr = $(el).html().trim();
+            var newV = marked(curr);
+            $(el).html(newV);            
+        });
+            
+    })();
+
+    </script>
 	
 </body>
 </html>

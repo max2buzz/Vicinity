@@ -4,10 +4,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{publisher}} | Dashboard</title>
+  <title> {{publisher}} | Dashboard </title>
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
   <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/stylesheets/postS.css">  
 </head>
 <body>
  <body>
@@ -42,42 +45,99 @@
             </ul>
 		</section>
     </nav>
-
-    <div class="title">
-        <div class="columns large-12 small-12 medium-12">
-            <h3>Title</h3>
-            <input type="text" name="title" placeholder="POST TITLE">
+   
+    <div class="main  clearfix">    
+        <div class="title columns large-12 small-12 medium-12">
+            <input type="text" id="titleText" name="title" placeholder="Your Post Title">
         </div>
-    </div>
-    <div class="contents">
+        
         <div class="type columns large-6">
-            <p>Markdown</p>
-            <textarea name="inputMark" id="text-input" cols="70" rows="10">
-                
-            </textarea>
+            <small>MARKDOWN</small>
+            <a href="#" class="right" data-reveal-id="myModal" data-reveal><img src="/images/content/QuestionMark.png" height="15px" width="20px" alt=""></a>
+            <div class="inz"><textarea name="inputMark" id="text-input" cols="70" rows="10"></textarea></div>
         </div>
         <div class="preview columns large-6">
-            <p>Rendered HTML</p>
+            <small>RENDERED HTML</small>
             <div class="render">
-                
+                      
             </div>
         </div>
     </div>
+    <div class="row lastCol">
+    <div class="large-4  columns">
+      <label>Tags
+        <input type="text" name="tags" placeholder="Tags Comma Seperated Please">        
+      </label>
+    </div>
+    <div class="large-4 columns">
+            <label>Location
+            <select id="locz" name="location">
+              <option value="Borivali-East">Borivali-East</option>
+              <option value="Borivali-West">Borivali-West</option>
+              <option value="Goregaon-East">Goregaon-East</option>
+              <option value="Goregaon-West">Goregaon-West</option>
+            </select>
+            </label> 
+    </div>
+    
+    <div class="large-4 columns">
+      <button id="postSubmit">SUBMIT</button>
+    </div>
+    
+
+    <div id="myModal" class="reveal-modal" data-reveal>
+        <h2>Introduction To Markdown</h2>
+        <p class="lead">Visit the Page</p>
+        <a href="http://daringfireball.net/projects/markdown/syntax">Sytax for Markdown</a>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    
+
+
     <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/foundation/foundation.js"></script>
+    <script src="/javascripts/foundation/foundation.reveal.js"></script>
     <script src="/javascripts/marked.js"></script>
+    <script src="/javascripts/toastr.min.js"></script>
     <script>
-    
-    
+        $(document).foundation();
+    </script>
+    <script>
+    (function() {
     $("#text-input").on('input', function(){
         var value = $("#text-input").val();
         var toSHow = marked(value);
         $(".render").html(toSHow);    
       
     });
-      
+    })();
     </script>
-    
-
-	
+    <script>
+    (function() {
+    $('#postSubmit').on('click', function() {
+        if ($("#text-input").val()==="" || $('input[name="title"]').val()=="") {
+            toastr.error("","Title / Body is required");
+        }
+        else{
+            var formdata ={
+                  title: $('input[name="title"]').val(),
+                  body: $("#text-input").val(),
+                  tags: $('input[name="tags"]').val().split(","),
+                  location : $('select[name="location"]').val()  
+                }  
+                $.post("/publisher/p/publish",formdata, function(data) {
+                    if(data.posted){
+                        window.location="/publisher";
+                    }
+                    else{
+                        toastr.error("","Sorry. Something Went Wrong, Coudnt Publish");
+                    }
+                });
+        }
+        
+          
+    });    
+    })();
+    </script>   
 </body>
 </html>
