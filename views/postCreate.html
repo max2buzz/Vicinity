@@ -33,9 +33,6 @@
                     <a href="#">{{publisher}}</a>
                 </li>
                 <li>
-                    <a href="/publisher/p/new">Create</a>
-                </li>
-                <li>
                     <a href="#">Trending</a>
                 </li>
                 <li>
@@ -46,13 +43,40 @@
 		</section>
     </nav>
 
-    <div class="posts">
-        
+    <div class="title">
+        <div class="columns large-12 small-12 medium-12">
+            <h3>Title</h3>
+            <input type="text" name="title" placeholder="POST TITLE">
+        </div>
     </div>
-
-    <div class="create">
-        <a href="/publisher/p/new" class="button">Create A New Post</a>
+    <div class="contents">
+        <div class="type columns large-6">
+            <p>Markdown</p>
+            <textarea name="inputMark" id="text-input" cols="70" rows="10">
+                
+            </textarea>
+        </div>
+        <div class="preview columns large-6">
+            <p>Rendered HTML</p>
+            <div class="render">
+                
+            </div>
+        </div>
     </div>
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/marked.js"></script>
+    <script>
+    
+    
+    $("#text-input").on('input', function(){
+        var value = $("#text-input").val();
+        var toSHow = marked(value);
+        $(".render").html(toSHow);    
+      
+    });
+      
+    </script>
+    
 
 	
 </body>

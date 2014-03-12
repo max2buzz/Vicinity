@@ -46,7 +46,9 @@ exports.getPost = function(req, res) {
 };
 
 exports.createPost = function(req, res) {
-
+    res.render("postCreate", {
+        publisher: req.session.publisher
+    });
 };
 
 exports.editPost = function(req, res) {
