@@ -1,11 +1,13 @@
 var user = require('./user');
 var content = require('./content');
 var publisher = require('./publisher');
+var moderator = require('./moderator');
 
 module.exports = exports = function(app, db) {
 
     user.setdb(db);
     publisher.setdb(db);
+    moderator.setdb(db);
 
     //User Routes
     app.get('/', content.showIndexPage);
@@ -20,6 +22,7 @@ module.exports = exports = function(app, db) {
     app.post("/signUpUser", user.handleSignUp);
     app.post("/user/login", user.handleLogin);
 
+
     // Publisher Routes
     app.get('/publisher', publisher.showPubIndex);
     app.get('/publisher/signup', publisher.showPubSignup);
@@ -28,9 +31,18 @@ module.exports = exports = function(app, db) {
     app.get('/publisher/p/:id', publisher.isPubLog, publisher.getPost);
     app.get('/publisher/p/:id/edit', publisher.isPubLog, publisher.editPost);
 
-
     app.post('/signUpPublisher', publisher.handleSignUp);
     app.post("/newPublisherEmail", publisher.checkEmail);
     app.post('/publisher/login', publisher.handleLogin);
     app.post('/publisher/p/publish', publisher.handlePostSubmission);
+
+
+    //Moderator Routes
+    app.get('/moderator', moderator.showIndexPage);
+    app.get('/moderator/login', moderator.showModSignUp);
+    app.get('/moderator/signup', moderator.handleSignUp);
+    app.get('/moderator/p/:id', moderator.isModLog, moderator.postHandle);
+    app.get('/moderator/logout', moderator.isModLog, moderator.handleLogout);
+
+
 };

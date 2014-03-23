@@ -23,7 +23,9 @@ function ContentHandler(db) {
             location: loc
         };
 
-        posts.find(query).toArray(function(err, docs) {
+        posts.find(query).sort({
+            publishedAt: -1
+        }).toArray(function(err, docs) {
             if (err) {
                 return callback(err, null);
             } else {

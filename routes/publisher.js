@@ -28,7 +28,7 @@ exports.showPubIndex = function(req, res) {
         });
     } else
         res.render('publisherDashboard', {
-            publisher: req.session.publisher
+            publisher: req.session.publisherd.OrganizationName
         });
 
 };
@@ -59,7 +59,7 @@ exports.isPubLog = function(req, res, next) {
 exports.createPost = function(req, res) {
     console.log(req.session.publisherd);
     res.render("postCreate", {
-        publisher: req.session.publisher
+        publisher: req.session.publisherd.organizationName
     });
 };
 
@@ -72,21 +72,11 @@ exports.deletePost = function(req, res) {
 };
 
 
-// var getCurrentPublisher = function(req) {
-//     console.log(req.session.publisher);
-//     publisherHandler.getPublisherByEmail(req.session.publisher, function(err, doc) {
-//         if (doc) {
-//             return doc;
-//         } e lse {
-//             return null;
-//         }
-//     });
-// };
-
 exports.handlePostSubmission = function(req, res) {
     var currentPub = req.session.publisherd;
 
     var b = req.body;
+
     var post = {
         title: b.title,
         body: b.body,
@@ -94,7 +84,9 @@ exports.handlePostSubmission = function(req, res) {
         location: b.location,
         publishedBy: currentPub.OrganizationName,
         publishedAt: moment().format(),
-        status: 2,
+        status: 0,
+        userComments: [],
+        moderatorComments: []
     };
 
     contentHandler.publishPost(post, function(doc) {
