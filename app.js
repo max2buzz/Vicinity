@@ -17,9 +17,11 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 
 app.use(express.cookieParser());
+
 app.use(express.session({
     secret: Math.random().toString()
 }));
+
 app.use(app.router);
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,17 +31,19 @@ if ('development' == app.get('env')) {
 }
 
 
+var connectionStrLocal = 'mongodb://localhost:27017/Vicinity';
 
-
+var connectionMongoLab = 'mongodb://Shreyas1:monday@ds033699.mongolab.com:33699/myapplication';
 
 //Route Handline
 
-MongoClient.connect('mongodb://localhost:27017/Vicinity', function(err, db) {
+MongoClient.connect(connectionMongoLab, function(err, db) {
 
     if (err) {
         console.log("DB CANT CONNECT");
         throw err;
     }
+    
     console.log("DB CONNECTED!!");
 
     routes(app, db);

@@ -91,9 +91,6 @@
         <a href="http://daringfireball.net/projects/markdown/syntax">Sytax for Markdown</a>
         <a class="close-reveal-modal">&#215;</a>
     </div>
-    
-
-
     <script src="/javascripts/jquery.js"></script>
     <script src="/javascripts/foundation/foundation.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
@@ -113,6 +110,7 @@
     })();
     </script>
     <script>
+
     (function() {
     $('#postSubmit').on('click', function() {
         if ($("#text-input").val()==="" || $('input[name="title"]').val()=="") {
@@ -124,12 +122,14 @@
                   body: $("#text-input").val(),
                   tags: $('input[name="tags"]').val().split(","),
                   location : $('select[name="location"]').val()  
-                }  
+                }
+                $('.mybut').attr("disabled","disabled");  
                 $.post("/publisher/p/publish",formdata, function(data) {
                     if(data.posted){
                         window.location="/publisher";
                     }
                     else{
+                        $('.mybut').removeAttr("disabled");
                         toastr.error("","Sorry. Something Went Wrong, Coudnt Publish");
                     }
                 });

@@ -9,16 +9,52 @@
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
   <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
   <style>
+    body{
+        background-color: #EDECE4;
+    }
+
+    .postHeader{
+        margin-top: 2vh;
+        display: table;
+        height: 300px;
+        width: 100%;
+        text-align: center;
+        background: #E3EDF3;
+        background:url(images/content/{{loc}}/main.jpg);
+        color: rgba(0,0,0,0.9);
+          
+    }
+
+    .vertical{
+        display: table-cell;
+        vertical-align: middle;
+
+    }
+
+
+
     .postsHolder{
-        margin-top: 3vh;
-        margin0-left: 1vw;
-        padding-top: 10px;
-        padding-left: 10px;
+        font-family: 'Open Sans', sans-serif;
+        background-color: #FFF;
+        box-shadow: rgba(0, 0, 0, 0.0470588);
+        color:#3C4043;
+        margin-bottom: 3vh;
+        padding: 30px 40px;
     }
 
     .postBox{
-        border: 1px solid black;
+        border-bottom: #e3e3e3 1px solid;
     }
+
+    .title{
+        font-weight: bold;
+        font-size: 3.7em;
+    }
+    
+    .datePublished{
+        color:#7E878B;
+    }
+
 
   </style>
 </head>
@@ -57,26 +93,33 @@
             </ul>
 		</section>
     </nav>
-
+    
+    <div class="row">
+    <header class="postHeader">
+        <div class="vertical">
+            <h1>Trending in {{loc}}</h1>
+        </div>
+    </header>
     <div class="postsHolder clearfix">
-    <h3>Trending In {{loc}}</h3>
+    
     
         {% for post in posts %}
         {% if loop.first %}<div class="main">{% endif %}
                 
                     <div class="postBox small-12 medium-12 large-12 columns">
-                        <h2>{{post.title}}</h2>
+                        <h2 class="title"><center>{{post.title|title}}</center></h2>
                         <div class="render">{{post.body}}</div>
                         <p class="lead">By {{post.publishedBy}}</p>
-                        <p>
-                            {{post.publishedAt}}
+                        <p class="datePublished">
+                            {{post.publishedAt|date('l, d M Y g:i A')}}
                         </p>
                     </div>
                 
-        {% if loop.last %}</ul>{% endif %}
+        {% if loop.last %}</div>{% endif %}
     {% endfor %}
     </div>
     </div>
+
     <script src="/javascripts/jquery.js"></script>
     <script src="/javascripts/foundation/foundation.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
@@ -89,9 +132,7 @@
             var newV = marked(curr);
             $(el).html(newV);            
         });
-            
     })();
-
     </script>
 	
 </body>
