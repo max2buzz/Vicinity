@@ -47,8 +47,9 @@
     }
 
     .title{
+        margin-bottom: 10px;
         font-weight: bold;
-        font-size: 3.7em;
+        font-size: 3.4em;
     }
     
     .datePublished{
@@ -107,7 +108,7 @@
         {% if loop.first %}<div class="main">{% endif %}
                 
                     <div class="postBox small-12 medium-12 large-12 columns">
-                        <h2 class="title"><center>{{post.title|title}}</center></h2>
+                        <a href="/user/p/{{post._id}}"><h2 class="title"><center>{{post.title|title}}</center></h2></a>
                         <div class="render">{{post.body}}</div>
                         <p class="lead">By {{post.publishedBy}}</p>
                         <p class="datePublished">
@@ -130,7 +131,9 @@
         $('.render').each(function(index,el) {
             var curr = $(el).html().trim();
             var newV = marked(curr);
-            $(el).html(newV);            
+            $(el).html(newV);
+            var newFinal = $(el).text().substring(0,50);
+            $(el).html('<p class="lead">'+newFinal+" ... </p>");            
         });
     })();
     </script>

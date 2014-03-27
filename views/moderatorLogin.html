@@ -31,7 +31,7 @@
 		display: table;
 	}
 
-	#signup{
+	#login{
 		color:;
 		min-width: 280px;
 		max-width: 280px;
@@ -41,7 +41,7 @@
 	}
 
 	.mybut{
-			box-shadow: rgba(255,255,255,0.15) 0 1px 0 inset;
+		box-shadow: rgba(255,255,255,0.15) 0 1px 0 inset;
 		height: 40px;
 		padding:13px;
 		min-height: 40px;
@@ -87,7 +87,7 @@
 
 <div class="wrap">
 	<section class="signupform">
-		<form id="signup" action="#">
+		<form id="login" action="#">
 			<div class="title"><center><h3>LOG IN</h3></center></div>
 			<div class="name"><input id="inp" name="email" type="email" placeholder="Email Address" required></div>
 			<div class="mail"><input id="inp" name="password" type="password" placeholder="Password" required></div>
@@ -106,19 +106,21 @@ $('.wrap').hide();
 $('.wrap').fadeIn('1500');
 
 
-$('#signup').on('submit', function(e) {
+$('#login').on('submit', function(e) {
 	e.preventDefault();
 	$('.mybut').attr("disabled","disabled");
 	var toSend = {
+		action:"LOGIN",
 		email:$('input[name=email]').val(),
 		pass:$('input[name=password]').val()
 	};
 	
-	$.post('/moderatorSingin',toSend, function(dataR) {
+	$.post('/moderatorSign',toSend, function(dataR) {
 		if(dataR.isValid){
 			window.location = dataR.redirectTo;
 		}
-		else{
+		else{ 
+			toastr.error("ERROR: "+dataR.error);
 			$('.mybut').removeAttr("disabled");
 		}
 	}); 

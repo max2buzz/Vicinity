@@ -1,6 +1,7 @@
 var UsersHandler = require('./usersHandler').UsersHandler;
 var ContentHandler = require('./contenHandler').ContentHandler;
 var moment = require('moment');
+var downsize = require('downsize');
 
 var db = "";
 
@@ -34,6 +35,7 @@ exports.showUserDashboard = function(req, res) {
                 loc: req.session.userloc,
                 user: req.session.user,
                 posts: docs
+
             });
         } else {
             res.render('userDashboard', {
