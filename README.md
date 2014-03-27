@@ -21,7 +21,7 @@
 
 - Hours Ago Feature
 - Transitions in Post
-- HTML About, Contact, and Other Help Pages
+- HTML *About, Contact, and Other Help Pages
 - Blob storage API
 - Mobile Photo Upload API
 
