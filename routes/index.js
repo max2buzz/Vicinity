@@ -38,11 +38,12 @@ module.exports = exports = function(app, db) {
 
 
     //Moderator Routes
-    app.get('/moderator', moderator.showIndexPage);
-    app.get('/moderator/login', moderator.showModSignUp);
+    app.get('/moderator', moderator.showDashboard);
+    app.get('/moderator/login', moderator.showModLogin);
     app.get('/moderator/signup', moderator.handleSignUp);
     app.get('/moderator/p/:id', moderator.isModLog, moderator.postHandle);
     app.get('/moderator/logout', moderator.isModLog, moderator.handleLogout);
 
+    app.post('/moderatorSign', moderator.handleSing);
 
 };

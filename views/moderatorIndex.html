@@ -8,9 +8,20 @@
   <title>Moderator Panel</title>
   <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="/stylesheets/normalize.css">
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moderator Panel</title>
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
   <style>
 	body{
+		
 		background-color: #242628;
 	}
 	.signupform{
@@ -20,7 +31,7 @@
 		display: table;
 	}
 
-	#signup{
+	#login{
 		color:;
 		min-width: 280px;
 		max-width: 280px;
@@ -30,7 +41,7 @@
 	}
 
 	.mybut{
-			box-shadow: rgba(255,255,255,0.15) 0 1px 0 inset;
+		box-shadow: rgba(255,255,255,0.15) 0 1px 0 inset;
 		height: 40px;
 		padding:13px;
 		min-height: 40px;
@@ -62,7 +73,7 @@
 	}
 
 	h3{
-		color: #fff;
+		color: #8a9396;
 	}
 
 
@@ -76,19 +87,47 @@
 
 <div class="wrap">
 	<section class="signupform">
-		<form id="signup">
-			<div class="title"><center><h3>Moderator Zone</h3></center></div>
-			<div class="name"><input id="inp" type="text" placeholder="Full Name"></div>
-			<div class="mail"><input id="inp" type="email" placeholder="Email Address"></div>
-			<div class="submis"><button typ	e="suubmit" class="expand mybut">REGISTER</button></div>
+		<form id="login" action="#">
+			<div class="title"><center><h3>SIGNUP</h3></center></div>
+			<div class="name"><input id="inp" name="email" type="email" placeholder="Email Address" required></div>
+			<div class="mail"><input id="inp" name="fullname" type="text" placeholder="Full Name" required></div>
+			<div class="submis"><button type="submit" class="expand mybut">LOG IN</button></div>
+			<div class="response"></div>
 		</form>
 	</section>
 </div>
 
-
+<script src="/javascripts/jquery.js"></script>
+<script src="/javascripts/foundation.min.js"></script>
+<script src="/javascripts/toastr.min.js"></script>
+ 
 <script>
+$('.wrap').hide();
+$('.wrap').fadeIn('1500');
+
+
+$('#login').on('submit', function(e) {
+	e.preventDefault();
+	$('.mybut').attr("disabled","disabled");
+	var toSend = {
+		action:"SIGNUP",
+		email:$('input[name=email]').val(),
+		fullname:$('input[name=fullname]').val()
+	};
 	
+	$.post('/moderatorSign',toSend, function(dataR) {
+		if(dataR.isValid){
+			window.location = dataR.redirectTo;
+		}
+		else{ 
+			toastr.error("ERROR: "+dataR.error);
+			$('.mybut').removeAttr("disabled");
+		}
+	}); 
+});
+
 </script>
+
 
 </body>
 </html>
