@@ -57,7 +57,6 @@ exports.isPubLog = function(req, res, next) {
 };
 
 exports.createPost = function(req, res) {
-    console.log(req.session.publisherd);
     res.render("postCreate", {
         publisher: req.session.publisherd.organizationName
     });

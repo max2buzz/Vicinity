@@ -9,13 +9,20 @@ module.exports = exports = function(app, db) {
     publisher.setdb(db);
     moderator.setdb(db);
 
+    //Application Routes
+
+    app.get('/about', content.showAboutPage);
+    app.get('/contact', content.showContactPage);
+
+
+
     //User Routes
     app.get('/', content.showIndexPage);
     app.get('/signup', user.showSignUpPage);
     app.get('/user', user.showUserDashboard);
     app.get("/user/logout", user.handleLogout);
     app.get('/user/u/:name', user.showUserProfile);
-    app.get('/user/p/:id', user.getPost);
+    app.get('/user/p/:id',user.isUserLog, user.getPost);
 
     app.post("/newUserEmail", user.checkEmail);
     app.post('/newUserName', user.checkUserName);
@@ -45,5 +52,7 @@ module.exports = exports = function(app, db) {
     app.get('/moderator/logout', moderator.isModLog, moderator.handleLogout);
 
     app.post('/moderatorSign', moderator.handleSing);
+
+
 
 };

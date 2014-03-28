@@ -31,6 +31,8 @@ exports.showUserDashboard = function(req, res) {
         res.redirect("/");
     contentHandler.getPostByLocation(req.session.userloc, function(err, docs) {
         if (docs) {
+            
+
             res.render('userDashboard', {
                 loc: req.session.userloc,
                 user: req.session.user,
@@ -41,13 +43,22 @@ exports.showUserDashboard = function(req, res) {
             res.render('userDashboard', {
                 loc: req.session.userloc,
                 user: req.session.user,
-                posts: null
+                posts: null,
+                error: "Contents Cannot Be Retrived From Server"
             });
         }
     });
 
 };
 
+exports.isUserLog = function(req, res, next) {
+    
+    if (req.session.user === undefined) {
+        return res.redirect('/');
+    } else {
+        next();
+    }
+};
 
 exports.showUserProfile = function(req, res) {
 
@@ -55,6 +66,23 @@ exports.showUserProfile = function(req, res) {
 
 exports.getPost = function(req, res) {
 
+    contentHandler.getPostById(req.params.id, function(err,doc) {
+    
+        if(doc){
+            res.render('userPostView',{
+                title:doc.title,
+                body:doc.body,
+                tags:doc.tags,
+                publishedAt: doc.publishedAt,
+                publishedBy: doc.publishedBy,
+            });
+        }
+        else{
+            res.render('userPostView',{
+                error:"Error Getting Post"
+            });
+        }   
+    });
 };
 
 exports.handleSignUp = function(req, res) {

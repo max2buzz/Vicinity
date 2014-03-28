@@ -1,6 +1,4 @@
 exports.showIndexPage = function(req, res) {
-    console.log("HERE AT index");
-
     var serveError = "";
 
     if (!(req.session.serror === undefined)) {
@@ -14,7 +12,12 @@ exports.showIndexPage = function(req, res) {
 
 };
 
+exports.showAboutPage = function(req, res) {
+	res.render('about');
 
-exports.getPost = function(req, res) {
+};
+
+exports.showContactPage = function(req, res) {
+	res.render('contact');
 
 };

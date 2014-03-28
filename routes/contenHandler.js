@@ -37,6 +37,24 @@ function ContentHandler(db) {
 
     };
 
+    this.getPostById = function(id, callback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        posts.findOne(query, function(err,doc) {
+            if(doc){
+                return callback(null,doc);
+            }
+            if(err){
+                throw err;
+            }
+
+        });
+
+
+    };
+
 
 }
 module.exports.ContentHandler = ContentHandler;

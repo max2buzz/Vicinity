@@ -1,14 +1,59 @@
 <!doctype html>
 <html class="no-js" lang="en">
   <head>
-    <link rel="stylesheet" href="style.css">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foundation | Welcome</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <script src="js/vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="stylesheets/foundation.min.css" />
+    <script src="javascripts/vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
   </head>
+  <style>
+  .flipper{
+    border:1px #e3e3e3 solid;
+  }
+
+  .back{
+    background-color: #e3e3e3;
+  }
+
+  </style>
   <body>
+
+  <nav class="top-bar " data-topbar>
+        <!-- Left Naviagation Section -->
+        <ul class="title-area">
+            <li class="name">
+                <h1>
+                    <a href="/">Vicinity <strong>Explorer</strong>
+                    </a>
+                </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+                <a href="#">
+                    <span>Menu</span>
+                </a>
+            </li>
+    </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li>
+                    <a href="/signup">Sign Up</a>
+                </li>
+                <li>
+                    <a href="/publisher">Publisher</a>
+                </li>
+                <li>
+                    <a href="/contact">Contact</a>
+                </li>
+                <li>
+                    <a href="/about">About Us</a>
+                </li>
+
+            </ul>
+    </section>
+    </nav>
     
     
 
@@ -18,7 +63,7 @@
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
           <div class="flipper">
             <div class="front">
-              <img src="shreyas.jpg" height="250" width="290">
+              <img src="images/content/shreyas.jpg">
             </div>
             <div class="back">
               <p align="center">shreyasrane92@gmail.com</p>
@@ -44,7 +89,7 @@
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
           <div class="flipper">
             <div class="front">
-              <img src="aniket.jpg" height="250" width="290">
+              <img src="images/content/aniket.jpg">
             </div>
             <div class="back">
               <p align="center">aniketsakinala92@gmail.com</p>
@@ -68,7 +113,7 @@
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
           <div class="flipper">
             <div class="front">
-              <img src="sudeep.jpg" height="250" width="290">
+              <img src="images/content/sudeep.jpg">
             </div>
             <div class="back">
               <p align="center">sudeepmore93@gmail.com</p>
@@ -88,8 +133,8 @@
       </div>
     </div>
     
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="javascripts/vendor/jquery.js"></script>
+    <script src="javascripts/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
