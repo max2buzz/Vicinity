@@ -31,9 +31,12 @@ if ('development' == app.get('env')) {
 }
 
 
+//Connection Strings
 var connectionStrLocal = 'mongodb://localhost:27017/Vicinity';
 
 var connectionMongoLab = 'mongodb://Shreyas1:monday@ds033699.mongolab.com:33699/myapplication';
+
+
 
 //Route Handline
 

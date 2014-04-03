@@ -92,7 +92,10 @@
 			<div class="name"><input id="inp" name="email" type="email" placeholder="Email Address" required></div>
 			<div class="mail"><input id="inp" name="fullname" type="text" placeholder="Full Name" required></div>
 			<div class="submis"><button type="submit" class="expand mybut">LOG IN</button></div>
-			<div class="response"></div>
+			<div class="response">
+				
+			</div>
+			<div class="loginLink"><center><a href="moderator/login">Login</a></center></div>
 		</form>
 	</section>
 </div>
@@ -102,9 +105,9 @@
 <script src="/javascripts/toastr.min.js"></script>
  
 <script>
+$('.loginLink').hide();
 $('.wrap').hide();
 $('.wrap').fadeIn('1500');
-
 
 $('#login').on('submit', function(e) {
 	e.preventDefault();
@@ -117,7 +120,8 @@ $('#login').on('submit', function(e) {
 	
 	$.post('/moderatorSign',toSend, function(dataR) {
 		if(dataR.isValid){
-			window.location = dataR.redirectTo;
+			$('.response').hide().html(dataR.message).fadeIn(900);
+			$('.loginLink').fadeIn(900);
 		}
 		else{ 
 			toastr.error("ERROR: "+dataR.error);

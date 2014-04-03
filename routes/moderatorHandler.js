@@ -13,5 +13,14 @@ function ModeratorHandler(db) {
     }
 
 
+    this.insertModerator= function(email, password, name, callback){
+
+    };
+
+    this.findModeratorById = function(email, callback) {
+
+    };
+
+    
 
 }

@@ -105,6 +105,9 @@
        <div class="row server-error">
          {{serverError}}
        </div>
+       <div class="loginlink">
+         <a href="/moderator/login"></a>
+       </div>
 
     </form>
     </div>
@@ -163,7 +166,7 @@
       console.log(formdata);
       $.post('/signUpPublisher', formdata, function(data) {
         if(data.userAdded){
-          window.location = data.redirectTo;
+         window.location = data.redirecTo;
         }
         else{
           toastr.error('Server Error', 'Error Signing Up');
