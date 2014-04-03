@@ -70,6 +70,7 @@ exports.getPost = function(req, res) {
     
         if(doc){
             res.render('userPostView',{
+                user: req.session.user,
                 title:doc.title,
                 body:doc.body,
                 tags:doc.tags,
@@ -123,6 +124,7 @@ exports.handleLogin = function(req, res) {
     userHandler.validateUser(username, password, function(err, doc) {
         if (doc) {
             req.session.user = username;
+            req.session.userO = doc;
             req.session.userloc = doc.locationId;
             res.redirect("/user");
         } else {
@@ -138,7 +140,8 @@ exports.handleLogout = function(req, res) {
         res.redirect("/");
     } else {
         delete req.session.user;
-        console.log(req.session.user);
+        delete req.session.userO;
+        delete req.session.userloc;
         res.redirect("/");
     }
 
@@ -186,3 +189,39 @@ exports.checkUserName = function(req, res) {
 
     });
 };
+
+
+exports.getCommentsFromPost = function(req, res) {
+    var id = req.params.id;
+
+    contentHandler.getCommentsFromPost(id, function(err, comments) {
+        if(err){
+            res.json(500, {error:"Cannot Fetch Comments"});
+        }
+        else{
+            res.json(comments);
+        }
+    });
+
+}
+
+exports.addCommentToPost = function(req, res) {
+    var id = req.params.id;
+    var comment = {
+        user: req.session.userO.name,
+        body: req.body.commentbody,
+        postedAt: moment().format() 
+    };
+    contentHandler.addCommentFromUser(id, comment, function(err, result) {
+        if(err){
+            res.json(500, {error:"Some Error Posting Comment"});
+        }
+        if(result){
+            res.json(comment);
+            return;
+        }
+        res.json(500, {error:"Some Error Posting Comment"});
+    });
+
+    
+}

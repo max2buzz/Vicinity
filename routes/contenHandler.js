@@ -51,7 +51,38 @@ function ContentHandler(db) {
             }
 
         });
+    };
 
+
+    this.getCommentsFromPost = function(id,callback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        posts.findOne(query, function(err,doc) {
+            if(doc){
+                return callback(null,doc.userComments);
+            }
+            if(err){
+                return callback(err, null);
+            }
+
+        });
+    };
+
+    this.addCommentFromUser = function(id, comment, callback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        posts.update(query , {
+            $push: {userComments: comment}
+        }, function(err, result) {
+            if(err){
+                return callback(err, null);
+            }
+            else return callback(null, result);
+        });
 
     };
 

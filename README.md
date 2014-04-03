@@ -3,15 +3,19 @@
 ##BE Project Main Files
 
 ###TODO
--Moderator
+
+- Moderator
   - Login
   - Accept Post
   - Decline Post
   - Message to Publisher
-- User
-  - Book 
-  - Review Post
-  - Comment Post
+
+- Book
+  - Create Book Share Portal
+  - Reply with book
+  - End Book Session
+  - Upload Book Pictures
+  - Database Scema for books
 
 - Publisher
   - Save Draft
@@ -19,7 +23,6 @@
   - Edit Post
   - Delete Post
 
-- Hours Ago Feature
 - Transitions in Post
 - HTML *About, Contact, and Other Help Pages
 - Blob storage API

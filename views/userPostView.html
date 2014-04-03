@@ -59,6 +59,9 @@
                     <a href="#">{{user}}</a>
                 </li>
                 <li>
+                    <a href="/user">{{user}}</a>
+                </li>
+                <li>
                     <a href="#">Books</a>
                 </li>
                 <li>
@@ -100,10 +103,17 @@
                 </div>    
                 
                 <div class="render">{{body}}</div>
-                
+                <div class="row">
                 <div class="commentsSec">
                   <h4>Comments</h4>
-                    
+                  <div class="large-6 postCommentArea">
+                    <textarea class="commentBody" placeholder="Share Your Thoughts"></textarea>
+                    <button id="postComment">Post</button>
+                  </div>  
+                  <div class="commentsWrap">
+                        
+                  </div>  
+                </div>
                 </div>
             </div>
         </div>
@@ -112,11 +122,23 @@
     
     </div>
 
+    
+    
     <script src="/javascripts/jquery.js"></script>
     <script src="/javascripts/foundation/foundation.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
     <script src="/javascripts/marked.js"></script>
+    <script src="/javascripts/underscore-min.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
+    <script src="/javascripts/moment.min.js"></script>
+    <script id="comment_template">
+        <div class="commentBox">
+            <h4> <%= FirstName %> <%= LastName %> <small> <%= time %> </small> </h4> 
+            <p>
+                <%= commentbody %> 
+            </p>
+        </div>
+    </script>
     <script>
     (function(){
         $('.render').each(function(index,el) {
@@ -124,7 +146,44 @@
             var newV = marked(curr);
             $(el).html(newV);
         });
-    })();
+
+        var loc = window.location.href;
+        var id = loc.substring(loc.lastIndexOf('/')+1, loc.length);
+        var templateComment = $('#comment_template').html();
+        var compiled = _.template(templateComment);
+        
+
+        $.get('/api/commentsFromPost/'+id , function(dataR) {
+            // console.log(_.sortBy(dataR,'postedAt'));
+            $.each(dataR, function(index, data) {
+                var el = compiled({
+                    FirstName: data.user.first,
+                    LastName: data.user.last,
+                    time: moment(data.postedAt).fromNow(),
+                    commentbody : data.body
+                });
+                $(el).prependTo('.commentsWrap');
+            });
+        }); 
+
+        $('#postComment').on('click', function() {
+            var body = $(".commentBody").val();
+            var toSend = {commentbody:body};
+            $.post('/api/commentToPost/'+id, toSend, function(data) {
+                if(data.error){
+                    toastr.error("Error Posting Comment");
+                }
+                var el = compiled({
+                    FirstName: data.user.first,
+                    LastName: data.user.last,
+                    time: moment(data.postedAt).fromNow(),
+                    commentbody : data.body
+                });
+                $(".commentBody").val("");
+                $(el).hide().prependTo('.commentsWrap').slideDown("slow");
+            });
+        })
+        })();
     </script>
 	
 </body>

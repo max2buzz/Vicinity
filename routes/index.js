@@ -13,7 +13,8 @@ module.exports = exports = function(app, db) {
 
     app.get('/about', content.showAboutPage);
     app.get('/contact', content.showContactPage);
-
+    app.get('/api/commentsFromPost/:id', user.getCommentsFromPost);
+    app.post('/api/commentToPost/:id' , user.isUserLog, user.addCommentToPost);
 
 
     //User Routes
@@ -52,6 +53,9 @@ module.exports = exports = function(app, db) {
     app.get('/moderator/logout', moderator.isModLog, moderator.handleLogout);
 
     app.post('/moderatorSign', moderator.handleSing);
+
+
+    //Api Route
 
 
 
