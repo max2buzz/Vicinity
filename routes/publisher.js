@@ -26,11 +26,14 @@ exports.showPubIndex = function(req, res) {
         res.render("publisherIndex", {
             error: serveError
         });
-    } else
-        res.render('publisherDashboard', {
-            publisher: req.session.publisherd.OrganizationName
+    } else {
+        contentHandler.getPostByPublisher(req.session.publisherd._id, function(err, docs) {
+            res.render('publisherDashboard', {
+                publisher: req.session.publisherd.OrganizationName,
+                post: docs
+            });
         });
-
+    }
 };
 
 exports.showPubSignup = function(req, res) {
@@ -45,7 +48,23 @@ exports.showPubProfile = function(req, res) {
 
 
 exports.getPost = function(req, res) {
+    contentHandler.getPostById(req.params.id, function(err, doc) {
 
+        if (doc) {
+            res.render('publisherPostView', {
+                publisher: req.session.publisherd.OrganizationName,
+                title: doc.title,
+                body: doc.body,
+                tags: doc.tags,
+                publishedAt: doc.publishedAt,
+
+            });
+        } else {
+            res.render('userPostView', {
+                error: "Error Getting Post"
+            });
+        }
+    });
 };
 
 exports.isPubLog = function(req, res, next) {

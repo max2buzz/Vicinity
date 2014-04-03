@@ -52,7 +52,7 @@ exports.isModLog = function(req, res) {
 
 exports.handleSing = function(req, res) {
     var b = req.body;
-    console.log(b);
+
     if (b.action === "SIGNUP") {
         var formdata = {
             name: b.fullname,
@@ -61,36 +61,43 @@ exports.handleSing = function(req, res) {
         };
         var passgen = generatePassword(8);
         moderatorHandler.findModeratorById(b.email, function(err, doc) {
+            console.log("Inside DOc");
             if (doc) {
                 var sending = {
                     isValid: false,
                     error: "The Email Address is already registered to the service"
                 };
-            }
-            else{
-                moderatorHandler.insertModerator(b.email, passgen, b.fullname , function(err, doc) {
-                    if(err){
-                        res.json(500, {isValid:false, error:"Cannot Proceed, Some Internal Flaws"});
-                    }
-                    else{
+            } else {
+                moderatorHandler.insertModerator(b.email, passgen, b.fullname, function(err, doc) {
+                    if (err) {
+                        res.json(500, {
+                            isValid: false,
+                            error: "Cannot Proceed, Some Internal Flaws"
+                        });
+                    } else {
                         var mailOptions = {
                             from: "moderator@vicinityExplorer.com",
                             to: b.email,
                             subject: "Vicinity Explorer Moderator",
-                            text: "Passkey for your Account is "+ passgen,
-                            html: "Passkey for your Account is "+ passgen
+                            text: "Passkey for your Account is " + passgen,
+                            html: "Passkey for your Account is " + passgen
                         };
 
-                        smtpTransport.sendMail(mailOptions, function(error, response){
-                            if(error){
-                                res.json(500, {isValid:false, error:"Cannot Send Email to the above address"});
-                            }
-                            else{
-                                res.json({isValid:true, message:"An Email Has been sent to the above address with a pass-key. Use this key to login"});
+                        smtpTransport.sendMail(mailOptions, function(error, response) {
+                            if (error) {
+                                res.json(500, {
+                                    isValid: false,
+                                    error: "Cannot Send Email to the above address"
+                                });
+                            } else {
+                                res.json({
+                                    isValid: true,
+                                    message: "An Email Has been sent to the above address with a pass-key. Use this key to login"
+                                });
                             }
                         });
 
-                        
+
                     }
                 });
             }
@@ -106,6 +113,12 @@ exports.handleSing = function(req, res) {
             password: b.pass
         };
         console.log(formdata);
+        moderatorHandler.findModeratorById(b.email, function(err, doc) {
+            console.log(doc);
+            res.json({
+                cool: "Cool"
+            });
+        });
     }
 
 };
