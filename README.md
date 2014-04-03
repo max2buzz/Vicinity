@@ -5,7 +5,6 @@
 ###TODO
 
 - Moderator
-  - Login
   - Accept Post
   - Decline Post
   - Message to Publisher
@@ -18,17 +17,14 @@
   - Database Scema for books
 
 - Publisher
-  - Save Draft
-  - View All Posts
+  - Save Draft//
   - Edit Post
   - Delete Post
 
 - Transitions in Post
-- HTML *About, Contact, and Other Help Pages
+- Sudeep n aniket in contact us pg
 - Blob storage API
 - Mobile Photo Upload API
-
-
 
 
 ###3Markdown Options

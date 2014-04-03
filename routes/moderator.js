@@ -26,7 +26,20 @@ exports.setdb = function(datab) {
 };
 
 exports.showDashboard = function(req, res) {
-    res.send("Done Here");
+    contentHandler.getUnmoderatedPosts(function(err,docs){
+        if(err){
+            res.render("moderatorDashboard",{
+                moderator: req.session.moderator.name,
+                serverError: "Cannot get Documents"
+            });
+        }
+        else{
+            res.render("moderatorDashboard",{
+                moderator: req.session.moderator.name,
+                posts: docs
+            });
+        }
+    });
 };
 
 exports.showModLogin = function(req, res) {
@@ -118,6 +131,7 @@ exports.handleSing = function(req, res) {
             console.log(doc);
             if(doc){
                 if(doc.password===b.pass){
+                    req.session.moderator = doc;
                     res.json({
                         isValid: true,
                         redirectTo: "/moderator"
@@ -136,7 +150,7 @@ exports.handleSing = function(req, res) {
                     error: "Email is not registered to the service"
                 });
             }
-
+            
         });
     }
 

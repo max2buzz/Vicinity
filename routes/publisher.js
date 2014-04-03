@@ -27,10 +27,10 @@ exports.showPubIndex = function(req, res) {
             error: serveError
         });
     } else {
-        contentHandler.getPostByPublisher(req.session.publisherd._id, function(err, docs) {
+        contentHandler.getPostsByPublisher(req.session.publisherd.OrganizationName, function(err, docs) {
             res.render('publisherDashboard', {
                 publisher: req.session.publisherd.OrganizationName,
-                post: docs
+                posts: docs
             });
         });
     }

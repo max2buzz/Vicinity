@@ -59,7 +59,5 @@ function PublisherHandler(db) {
         });
     };
 
-
-
 }
 module.exports.PublisherHandler = PublisherHandler;

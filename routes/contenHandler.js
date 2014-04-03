@@ -83,9 +83,39 @@ function ContentHandler(db) {
             }
             else return callback(null, result);
         });
-
     };
 
+    this.getPostsByPublisher=function(publisherName, callback){
+        var query={
+            publishedBy:publisherName
+        };
+
+        posts.find(query).sort({
+            publishedAt: -1
+        }).toArray(function (err,docs){
+            if(err){
+                return callback(err, null);
+            }
+            else{
+                return callback(null, docs);
+            }
+        });
+    };
+
+    this.getUnmoderatedPosts=function(callback){
+        var query={
+            status: 0
+        }
+        posts.find(query).toArray(function(err,docs){
+            if(err){
+                return callback(err, null);
+            }
+            else{
+                return callback(null, docs);
+            }
+        });
+    };
+    
 
 }
 module.exports.ContentHandler = ContentHandler;
