@@ -14,11 +14,33 @@ function ModeratorHandler(db) {
 
 
     this.insertModerator= function(email, password, name, callback){
-
+        var query={
+            _id:email,
+            password:password,
+            name:name
+        };
+        moderators.insert(query,function (err,doc) {
+            if(err){
+                return callback(err,null);
+            }
+            else{
+                return callback(null,doc);
+            }
+        });
     };
 
     this.findModeratorById = function(email, callback) {
-
+        var query={
+            _id:email
+        }
+        moderators.findOne(query, function(err,doc){
+            if(err){
+                return callback(err,null);
+            }
+            else{
+                return callback(null,doc);
+            }
+        });
     };
 
     
