@@ -66,7 +66,8 @@ exports.handleSing = function(req, res) {
                 var sending = {
                     isValid: false,
                     error: "The Email Address is already registered to the service"
-                };
+                }
+                res.json(sending);
             } else {
                 moderatorHandler.insertModerator(b.email, passgen, b.fullname, function(err, doc) {
                     if (err) {
@@ -79,19 +80,8 @@ exports.handleSing = function(req, res) {
                             from: "moderator@vicinityExplorer.com",
                             to: b.email,
                             subject: "Vicinity Explorer Moderator",
-
-                            text: "Welcome to Vicinity Explorer!
-                            \nNow with this application, you can create a whole new social experience.
-                             To ensure that it remains a beautiful place to visit over and over again, we need you to moderate the content that is posted on our site via the Publishers.
-                             Keep a lookout for possible users spreading malicious code or those who look to generate unrest of any kind.
-                             \n Your User ID for loging in is 
-                             \n And the Passkey for your Account is " + passgen,
-                            html: "Welcome to Vicinity Explorer!
-                            \nNow with this application, you can create a whole new social experience.
-                             To ensure that it remains a beautiful place to visit over and over again, we need you to moderate the content that is posted on our site via the Publishers.
-                             Keep a lookout for possible users spreading malicious code or those who look to generate unrest of any kind.
-                            \n Your User ID for loging in is 
-                            \n And the Passkey for your Account is " + passgen
+                            text: passgen,
+                            html: passgen
                         };
 
                         smtpTransport.sendMail(mailOptions, function(error, response) {
@@ -126,9 +116,27 @@ exports.handleSing = function(req, res) {
         console.log(formdata);
         moderatorHandler.findModeratorById(b.email, function(err, doc) {
             console.log(doc);
-            res.json({
-                cool: "Cool"
-            });
+            if(doc){
+                if(doc.password===b.pass){
+                    res.json({
+                        isValid: true,
+                        redirectTo: "/moderator"
+                    });
+                }
+                else{
+                    res.json({
+                        isValid: false,
+                        error: "Username/Password mismatch"
+                    });
+                }
+            }
+            else{
+                res.json({
+                    isValid: false,
+                    error: "Email is not registered to the service"
+                });
+            }
+
         });
     }
 
