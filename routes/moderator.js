@@ -77,8 +77,18 @@ exports.handleSing = function(req, res) {
                             from: "moderator@vicinityExplorer.com",
                             to: b.email,
                             subject: "Vicinity Explorer Moderator",
-                            text: "Passkey for your Account is "+ passgen,
-                            html: "Passkey for your Account is "+ passgen
+                            text: "Welcome to Vicinity Explorer!
+                            \nNow with this application, you can create a whole new social experience.
+                             To ensure that it remains a beautiful place to visit over and over again, we need you to moderate the content that is posted on our site via the Publishers.
+                             Keep a lookout for possible users spreading malicious code or those who look to generate unrest of any kind.
+                             \n Your User ID for loging in is 
+                             \n And the Passkey for your Account is "+ passgen,
+                            html: "Welcome to Vicinity Explorer!
+                            \nNow with this application, you can create a whole new social experience.
+                             To ensure that it remains a beautiful place to visit over and over again, we need you to moderate the content that is posted on our site via the Publishers.
+                             Keep a lookout for possible users spreading malicious code or those who look to generate unrest of any kind.
+                            \n Your User ID for loging in is 
+                            \n And the Passkey for your Account is "+ passgen
                         };
 
                         smtpTransport.sendMail(mailOptions, function(error, response){
