@@ -47,6 +47,9 @@ exports.showPubProfile = function(req, res) {
 };
 
 
+
+
+
 exports.getPost = function(req, res) {
     contentHandler.getPostById(req.params.id, function(err, doc) {
 
@@ -214,4 +217,9 @@ exports.handleSignUp = function(req, res) {
             });
         }
     });
+};
+
+
+exports.getPublisherCount = function(req, res) {
+    
 };

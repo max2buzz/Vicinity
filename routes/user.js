@@ -230,3 +230,9 @@ exports.addCommentToPost = function(req, res) {
 
 
 };
+
+
+
+exports.getUsersCount = function(req, res) {
+    
+};

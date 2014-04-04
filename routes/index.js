@@ -56,6 +56,13 @@ module.exports = exports = function(app, db) {
 
 
     //Api Route
+    app.get('/api/getPostByTag/:tag', content.getPostByTag);
+    app.get('/stats/numberusers', user.getUsersCount);
+    app.get('/stats/numberpublishers', publisher.getPublisherCount);
+    app.get('/stats/numbermoderators', moderator.getModeratorCount);
+    app.get('/stats/numberposts', content.getPostsCount);
+    
+
 
 
 
