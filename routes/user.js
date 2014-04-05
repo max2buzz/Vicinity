@@ -14,11 +14,6 @@ exports.setdb = function(datab) {
     contentHandler = new ContentHandler(db);
 };
 
-exports.list = function(req, res) {
-    res.send("respond with a resource");
-};
-
-
 exports.showSignUpPage = function(req, res) {
     res.render("userSignup", {
         serverError: ""
@@ -94,7 +89,8 @@ exports.handleSignUp = function(req, res) {
         name: b.name,
         gender: b.gender,
         locationId: b.location,
-        joinedAtkey: moment().format()
+        joinedAtkey: moment().format(),
+        lastLogIn: moment().format()
     };
 
     userHandler.addUser(user, function(err) {
@@ -192,6 +188,7 @@ exports.checkUserName = function(req, res) {
 
 
 exports.getCommentsFromPost = function(req, res) {
+    
     var id = req.params.id;
 
     contentHandler.getCommentsFromPost(id, function(err, comments) {
@@ -218,6 +215,7 @@ exports.addCommentToPost = function(req, res) {
             res.json(500, {
                 error: "Some Error Posting Comment"
             });
+            return;
         }
         if (result) {
             res.json(comment);
@@ -230,6 +228,22 @@ exports.addCommentToPost = function(req, res) {
 
 
 };
+
+
+
+exports.showBookDashboard = function(req, res) {
+    res.render('userBookDashboard',{
+        user: req.session.userO._id,
+        loc:  req.session.userO.locationId
+    });
+};
+
+
+exports.addNewBook = function(req , res) {
+    res.render("userBookAdd",{
+           });
+};
+
 
 
 

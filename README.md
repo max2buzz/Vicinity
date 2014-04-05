@@ -4,6 +4,8 @@
 
 ###TODO
 
+- Profile Pages
+
 - Moderator
   - Accept Post
   - Decline Post

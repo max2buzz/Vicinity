@@ -82,7 +82,7 @@
                     <a href="#">{{user}}</a>
                 </li>
                 <li>
-                    <a href="#">Books</a>
+                    <a href="/user/books">Books</a>
                 </li>
                 <li>
                     <a href="#">Trending</a>
@@ -121,7 +121,7 @@
     </div>
 
     <script src="/javascripts/jquery.js"></script>
-    <script src="/javascripts/foundation/foundation.js"></script>
+    <script src="/javascripts/foundation.min.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
     <script src="/javascripts/marked.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
@@ -136,6 +136,8 @@
         });
     })();
     </script>
-	
+    <script>
+        $(document).foundation();
+    </script>
 </body>
 </html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{user}} | Books</title>
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet" href="/stylesheets/foundation.min.css">
+  <style>
+    .bookImage{
+      height: 480px;
+    }
+
+    .bookImage img{
+      background-color: gray;
+      height: 480px;
+      width: 80%;
+    }
+
+
+  </style>
+</head>
+<body>
+  <nav class="top-bar " data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1>
+                    <a href="/">Vicinity <strong>Explorer</strong>
+                    </a>
+                </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+                <a href="#">
+                    <span>Menu</span>
+                </a>
+            </li>
+    </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li>
+                    <a href="#">{{user}}</a>
+                </li>
+                <li>
+                    <a href="/user/books">Books</a>
+                </li>
+                <li>
+                    <a href="#">Trending</a>
+                </li>
+                <li>
+                    <a href="/user/logout">Logout</a>
+                </li>
+
+            </ul>
+    </section>
+    </nav>
+	  
+    <div class="row bookAdd">
+      <div class="info large-6 columns">
+        
+        <form>
+          <label for="title">Title</label>
+          <input type="text" name="title" required>
+          
+          <label for="author">Author</label>
+          <input type="text" name="author" required>
+  
+          <label for="amazonLink">Amazon Link</label>
+          <input type="text" name="amazon">
+
+          <label for="describe">Description</label>
+          <textarea name="describe" id="describe" cols="70" rows="70" placeholder="Something About This Book and Something that you may want in return"></textarea>
+        </form>
+
+          <input type="text" id="imageLink" placeholder="Link For A Image">
+        
+      </div>
+      <div class="bookImage large-6 columns">
+        
+      </div>
+    </div>
+
+
+
+	<script src="/javascripts/jquery.js"></script>
+  	<script src="/javascripts/foundation.min.js"></script>
+  	<script src="/javascripts/toastr.min.js"></script>
+  	<script>
+        $(document).foundation();
+    </script>
+    <script>
+    $('#imageLink').on('input', function() {
+      var link = $('#imageLink').val().strip();
+      if(link==""){
+        $('.bookImage').html("");
+      }
+      else{
+        $('.bookImage').html("");
+        var img = $('<center><img src="'+ link +'" /></center>').hide();
+        img.appendTo('.bookImage').fadeIn(400);
+      }
+    });
+
+
+    </script>
+</body>

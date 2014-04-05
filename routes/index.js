@@ -22,6 +22,8 @@ module.exports = exports = function(app, db) {
     app.get('/signup', user.showSignUpPage);
     app.get('/user', user.showUserDashboard);
     app.get("/user/logout", user.handleLogout);
+    app.get("/user/books", user.isUserLog ,user.showBookDashboard);
+    app.get("/user/books/new", user.addNewBook);
     app.get('/user/u/:name', user.showUserProfile);
     app.get('/user/p/:id',user.isUserLog, user.getPost);
 

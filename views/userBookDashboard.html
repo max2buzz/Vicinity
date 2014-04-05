@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{user}} | Books</title>
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet" href="/stylesheets/foundation.min.css">
+</head>
+<body>
+  <nav class="top-bar " data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1>
+                    <a href="/">Vicinity <strong>Explorer</strong>
+                    </a>
+                </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+                <a href="#">
+                    <span>Menu</span>
+                </a>
+            </li>
+    </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li>
+                    <a href="#">{{user}}</a>
+                </li>
+                <li>
+                    <a href="/user/books">Books</a>
+                </li>
+                <li>
+                    <a href="#">Trending</a>
+                </li>
+                <li>
+                    <a href="/user/logout">Logout</a>
+                </li>
+
+            </ul>
+    </section>
+    </nav>
+	<div class="row">
+		<div class="createBook large-6">
+			<a href="/user/books/new" class="button">Create New Book</a>
+		</div>
+	</div>	
+	
+	<div class="row bookWrap">
+	
+	</div>
+	<script src="/javascripts/jquery.js"></script>
+  	<script src="/javascripts/foundation.min.js"></script>
+  	<script src="/javascripts/toastr.min.js"></script>
+  	<script>
+        $(document).foundation();
+    </script>
+</body>

@@ -43,7 +43,7 @@ exports.showPubSignup = function(req, res) {
 };
 
 exports.showPubProfile = function(req, res) {
-
+    
 };
 
 
@@ -180,6 +180,7 @@ exports.handleLogout = function(req, res) {
 
     } else {
         delete req.session.publisher;
+        delete req.session.publisherd;
     }
     res.redirect("/publisher");
 
@@ -203,7 +204,6 @@ exports.handleSignUp = function(req, res) {
 
     publisherHandler.addPublisher(publisher, function(err, doc) {
         if (err) {
-            console.log("PROBLEM ADDING USER");
             res.json({
                 userAdded: false
             });
@@ -221,5 +221,14 @@ exports.handleSignUp = function(req, res) {
 
 
 exports.getPublisherCount = function(req, res) {
-    
+    publisherHandler.getPubCount(function(err, count) {
+        if(err){
+            res.json(500, {error:'N/A'});
+        }
+        else{
+            res.json({
+                number:count
+            });
+        }
+    });
 };
