@@ -2,6 +2,8 @@ var user = require('./user');
 var content = require('./content');
 var publisher = require('./publisher');
 var moderator = require('./moderator');
+var fs = require('fs.extra');
+var path = require('path')
 
 module.exports = exports = function(app, db) {
 
@@ -64,8 +66,32 @@ module.exports = exports = function(app, db) {
     app.get('/stats/numbermoderators', moderator.getModeratorCount);
     app.get('/stats/numberposts', content.getPostsCount);
     
+    
+        
 
+    app.post('/postUserBook',function(req, res) {
+        
+        var newpath = path.resolve(__dirname, '../uploads/User');
 
+        fs.mkdirp(newpath, function (err) {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log('pow!')
+          }
+        });
+
+        var newPath = newpath +"/GPA.jpg";
+
+        fs.move(req.files.bookImg.path, newPath, function (err) {
+                  if (err) {
+                    throw err;
+                  }
+
+            console.log("Copied");
+        });
+        res.redirect("/");
+    });
 
 
 };
