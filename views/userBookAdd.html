@@ -74,21 +74,30 @@
           <input type="text" name="title" required>
           </div>
 
-
+          <div class="large-12 columns">
           <label for="author">Author</label>
           <input type="text" name="author" required>
-  
+          </div>  
+          
+          <div class="large-12 columns">
           <label for="amazonLink">Amazon Link</label>
           <input type="text" name="amazon">
-
+          </div>
+          
+          <div class="large-12 columns">
           <label for="describe">Description</label>
           <textarea name="describe" id="describe" cols="70" rows="70" placeholder="Something About This Book and Something that you may want in return"></textarea>
+          </div>
           
+          <div class="large-12 columns">
           <label for="imageLink">Link For Display Image</label>  
           <input type="url" id="imageLink" name="imageLink" placeholder="Link For A Image">
-
+          </div>   
+          
+          <div class="large-12 columns">  
           <label for="addPhoto">Add A Photo</label>
           <input type="file" name="bookImg" accept="image/*" capture="camera" required>
+          </div>
           
           <div class="large-12 columns">
           <label for="tags">Tags</label>
@@ -97,10 +106,13 @@
           
           <div class="large-12 columns">
           <label for="tags">Books You Want to trade With</label>
-          <input type="text" name="intended" id="intended" data-role="tagsinput" placeholder="Add Tags">
+          <input type="text" name="intended" id="intended" data-role="tagsinput" placeholder="Add Books">
           </div>
-
-          <button type="submit">Submit</button>
+           
+          <div class="large-12 columns">
+            <center><button type="submit">Submit</button></center>
+          </div>
+          
         </form>
 
           
@@ -116,7 +128,7 @@
 
 
 	  <script src="/javascripts/jquery.js"></script>
-  	<script src="/javascripts/bootstrap-tagsinput.min.js"></script>
+    <script src="/javascripts/bootstrap-tagsinput.min.js"></script>
     <script src="/javascripts/foundation.min.js"></script>
   	<script src="/javascripts/toastr.min.js"></script>
   	<script>
