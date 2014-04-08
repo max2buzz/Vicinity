@@ -69,29 +69,9 @@ module.exports = exports = function(app, db) {
     
         
 
-    app.post('/postUserBook',function(req, res) {
-        
-        var newpath = path.resolve(__dirname, '../uploads/User');
+    app.post('/postUserBook', user.isUserLog, user.handleBookPost );
 
-        fs.mkdirp(newpath, function (err) {
-          if (err) {
-            console.error(err);
-          } else {
-            console.log('pow!')
-          }
-        });
 
-        var newPath = newpath +"/GPA.jpg";
-
-        fs.move(req.files.bookImg.path, newPath, function (err) {
-                  if (err) {
-                    throw err;
-                  }
-
-            console.log("Copied");
-        });
-        res.redirect("/");
-    });
 
 
 };

@@ -245,6 +245,37 @@ exports.addNewBook = function(req , res) {
 };
 
 
+exports.handleBookPost = function(req, res) {
+    bookHandler.addBook(book, function(err, bookR) {
+            if(err){
+                
+            }   
+            else{
+                var newpath = path.resolve(__dirname, '../public/images/Book/'+bookR._id);        
+                fs.mkdirp(newpath, function (err) {
+                  if (err) {
+                    console.error(err);
+                  } else {
+                    console.log('Created Directory : ' + newpath)
+                  }
+                });
+                var newPath = newpath +"/main.jpg";
+
+                fs.move(req.files.bookImg.path, newPath, function (err) {
+                          if (err) {
+                            throw err;
+                          }
+
+                    console.log("Copied File");
+                });
+                
+                res.redirect('/user/books');
+
+            } 
+        });
+};
+
+
 
 
 exports.getUsersCount = function(req, res) {

@@ -12,10 +12,17 @@
   line-height: 22px;
   width:100%;
 }
+
+.bootstrap-tagsinput span {
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.8875rem;
+}
+
 .bootstrap-tagsinput input {
   border: none;
   box-shadow: none;
   outline: none;
+  display: inline-block;
   background-color: transparent;
   padding: 0;
   margin: 0;
