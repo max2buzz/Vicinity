@@ -1,8 +1,6 @@
 function UsersHandler(db) {
     "use strict";
 
-
-
     var users = db.collection("Users");
 
     /* If this constructor is called without the "new" operator, "this" points

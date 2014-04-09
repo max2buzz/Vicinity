@@ -28,7 +28,6 @@ exports.showUserDashboard = function(req, res) {
     contentHandler.getPostByLocation(req.session.userloc, function(err, docs) {
         if (docs) {
 
-
             res.render('userDashboard', {
                 loc: req.session.userloc,
                 user: req.session.user,
