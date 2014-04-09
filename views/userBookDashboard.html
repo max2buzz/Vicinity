@@ -11,8 +11,29 @@
 
   <style>
     body{
-      background-image:url("images/content/background.jpg");
+     background-color: #EDECE4;
     }
+
+    .main{
+      margin-top: 1em;
+    }
+
+    .bookWrapper{
+      background-color: #FFF;
+      margin-bottom: 1em;
+      border: 1px #EDECE4 solid;
+      
+    }
+
+    .bookWrapper img{
+      margin-top: 5px;
+      margin-bottom: 5px;
+      height: 320px;
+      width: 220px;
+    }
+  
+
+
   </style>
 
 </head>
@@ -51,15 +72,45 @@
             </ul>
     </section>
     </nav>
-	<div class="row">
-		<div class="createBook large-6">
-			<a href="/user/books/new" class="button">Create New Book</a>
-		</div>
-	</div>	
+		
 	
-	<div class="row bookWrap">
-	
+	<div class="bodyWrap">
+	     
+       {% for book in books %}
+       {% if loop.first %}<div class="main row clearfix">{% endif %}
+              
+  
+       <div class="bookWrapper large-6 medium-12 columns">
+          <div class="row">
+            <div class="large-6 columns">
+              <img src="{{ book.imageLink  }}" alt="BookImage">
+            </div>
+            <div class="large-6 columns">
+              <h3><a href="{{ book._id.toString() }}">{{ book.title }}</a></h3>
+              <h3>{{ book.author  }}</h3>
+              <p class="lead">
+                {{ book.description}}
+              </p>
+              <p>
+                {{ book.createdAt }}
+              </p>
+            </div>
+          </div>
+       </div>
+
+      {% if loop.last %}</div>{% endif %}
+      {% endfor %}
+      
+      <div class="createBook large-12 columns">
+        <center><a href="/user/books/new" class="button">Create New Book</a></center>
+      </div>  
+  
 	</div>
+
+  
+
+  
+
 	<script src="/javascripts/jquery.js"></script>
   	<script src="/javascripts/foundation.min.js"></script>
   	<script src="/javascripts/toastr.min.js"></script>

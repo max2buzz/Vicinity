@@ -16,7 +16,7 @@ module.exports = exports = function(app, db) {
     app.get('/about', content.showAboutPage);
     app.get('/contact', content.showContactPage);
     app.get('/api/commentsFromPost/:id', user.getCommentsFromPost);
-    
+        
 
     //User Routes
     app.get('/', content.showIndexPage);
@@ -24,7 +24,7 @@ module.exports = exports = function(app, db) {
     app.get('/user', user.showUserDashboard);
     app.get("/user/logout", user.handleLogout);
     app.get("/user/books", user.isUserLog ,user.showBookDashboard);
-    app.get("/user/books/new", user.addNewBook);
+    app.get("/user/books/new", user.isUserLog, user.addNewBook);
     app.get('/user/u/:name', user.showUserProfile);
     app.get('/user/p/:id',user.isUserLog, user.getPost);
 
@@ -32,7 +32,8 @@ module.exports = exports = function(app, db) {
     app.post('/newUserName', user.checkUserName);
     app.post("/signUpUser", user.handleSignUp);
     app.post("/user/login", user.handleLogin);
-
+    app.post('/api/commentToPost/:id' , user.isUserLog, user.addCommentToPost);
+    app.post('/postUserBook', user.isUserLog, user.handleBookPost );
 
     // Publisher Routes
     app.get('/publisher', publisher.showPubIndex);
@@ -68,8 +69,7 @@ module.exports = exports = function(app, db) {
     
         
 
-    // app.post('/postUserBook', user.isUserLog, user.handleBookPost );
-    // app.post('/api/commentToPost/:id' , user.isUserLog, user.addCommentToPost);
+     
 
 
 
