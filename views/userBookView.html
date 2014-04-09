@@ -12,23 +12,6 @@
   <style>
     
 
-    .postHeader{
-        margin-top: 2vh;
-        display: table;
-        height: 300px;
-        width: 100%;
-        text-align: center;
-        background: #E3EDF3;
-        background:url(images/content/{{loc}}/main.jpg);
-        color: rgba(0,0,0,0.9);
-          
-    }
-
-    .vertical{
-        display: table-cell;
-        vertical-align: bottom;
-
-   } 
     
 
 
@@ -74,11 +57,55 @@
     </nav>
     
     <div class="row">
-        <div class="bookholder">
+        <div class="bookWrap clearfix">
+        <div class="bookholder large-12 columns">
             <h1>{{ book.title }}</h1>
         </div>
-        <img src="" alt="">
-    
+        
+        <div class="imgWrap large-6 columns">
+            <img src="{{  book.imageLink }}" alt="Book Image">
+        </div>
+        
+        <div class="details large-6 columns">
+            <h3 class="subheader">By <strong>{{ book.author }}</strong></h3>
+            <h3 class><a href="{{ book.amazonLink }}">Amazon</a></h3>
+            <h3>In Trade by {{ book.user.name.first}}</h3>
+            <h4>At {{ book.createdAt | date('l, d M Y g:i A') }}</h4>
+            
+            <h3>
+                <strong>Tags</strong> : {% for tag in book.tags %}    
+                            <a href="#">#{{tag}} </a>
+                        {% endfor %}
+            </h3>
+
+            <h4>
+                <strong>In Exchange for</strong> : {% for trade in book.tradeWith %}    
+                                    {{trade}} , 
+                                  {% endfor %}
+            </h4>    
+
+        </div>
+        
+        <div class="description large-12 columns">
+            <h3>Description</h3>
+            <p class="lead">
+                {{book.description}}
+            </p>
+        </div>
+
+        </div>
+
+        <div class="bids large-8 columns">
+            <h4>Bids (<span class="numberComments"></span>)</h4>
+            <div class="commentPostArea">
+                <input type="text" id="bookName" name="bookName" placeholder="Book That you have">
+                <textarea name="commentPost" id="commentText" cols="30" rows="10" placeholder="Something About The Book"></textarea>
+                <button id="postBid">Post</button>
+            </div>
+        </div>
+        <div class="commentsWrap large-12 columns">
+            
+        </div>
     
     
     </div>
@@ -88,13 +115,12 @@
     <script src="/javascripts/jquery.js"></script>
     <script src="/javascripts/foundation/foundation.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
-    <script src="/javascripts/marked.js"></script>
     <script src="/javascripts/underscore-min.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
     <script src="/javascripts/moment.min.js"></script>
     <script id="comment_template">
         <div class="commentBox">
-            <h4> <%= FirstName %> <%= LastName %> <small> <%= time %> </small> </h4> 
+            <h4> <%= FirstName %> <%= LastName %> Bids with <strong> <%= Book %> </strong> <small> <%= time %> </small> </h4> 
             <p>
                 <%= commentbody %> 
             </p>
@@ -102,49 +128,62 @@
     </script>
     <script>
     (function(){
-        $('.render').each(function(index,el) {
-            var curr = $(el).html().trim();
-            var newV = marked(curr);
-            $(el).html(newV);
-        });
-
+        
         var loc = window.location.href;
         var id = loc.substring(loc.lastIndexOf('/')+1, loc.length);
-        var templateComment = $('#comment_template').html();
-        var compiled = _.template(templateComment);
         
 
-        $.get('/api/commentsFromPost/'+id , function(dataR) {
-            // console.log(_.sortBy(dataR,'postedAt'));
+        $.get('/api/bidsFromBook/'+id , function(dataR) {
             $('.numberComments').html(dataR.length);
+            var templateComment = $('#comment_template').html();
+            var compiled = _.template(templateComment);
             $.each(dataR, function(index, data) {
                 var el = compiled({
                     FirstName: data.user.first,
                     LastName: data.user.last,
                     time: moment(data.postedAt).fromNow(),
-                    commentbody : data.body
+                    commentbody : data.body,
+                    Book: data.bookName
                 });
                 $(el).prependTo('.commentsWrap');
             });
         }); 
 
-        $('#postComment').on('click', function() {
-            var body = $(".commentBody").val();
-            var toSend = {commentbody:body};
-            $.post('/api/commentToPost/'+id, toSend, function(data) {
+        $('#postBid').on('click', function() {
+            
+            var bookName = $('#bookName').val();
+            var body = $("#commentText").val();
+
+            if(bookName == "" || body ==""){
+                toastr.error("Body/Book Name Required");
+                return;
+            }
+
+            var toSend = {
+                book : bookName,
+                bidText: body
+            };
+            
+            $.post('/api/bidToBookPost/'+id, toSend, function(data) {
                 if(data.error){
                     toastr.error("Error Posting Comment");
                 }
+                var templateComment = $('#comment_template').html();
+                var compiled = _.template(templateComment);
                 var el = compiled({
                     FirstName: data.user.first,
                     LastName: data.user.last,
                     time: moment(data.postedAt).fromNow(),
-                    commentbody : data.body
+                    commentbody : data.body,
+                    Book: data.bookName
                 });
-                $(".commentBody").val("");
+                $("#commentText").val("");
+                $("#bookName").val("");
                 $(el).hide().prependTo('.commentsWrap').slideDown("slow");
+                
             });
-        })
+        });
+
         })();
     </script>
 	
