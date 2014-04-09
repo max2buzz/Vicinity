@@ -6,17 +6,8 @@ var app = express();
 var cons = require('consolidate');
 var MongoClient = require('mongodb').MongoClient;
 
-// var parted = require('parted');
-// app.use(parted({
-//   // custom file path
-//   path: "./uploads",
-//   // memory usage limit per request
-//   limit: 30 * 1024,
-//   // disk usage limit per request
-//   diskLimit: 30 * 1024 * 1024,
-//   // enable streaming for json/qs
-//   stream: true
-// }));
+var parted = require('parted');
+
 
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -34,8 +25,6 @@ app.use(express.session({
     secret: Math.random().toString()
 }));
 
-
-
 app.use(app.router);
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -43,6 +32,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
+
+
+// app.use(parted({
+//   // custom file path
+//   path: "./uploads",
+//   // memory usage limit per request
+//   limit: 30 * 1024,
+//   // disk usage limit per request
+//   diskLimit: 30 * 1024 * 1024,
+//   // enable streaming for json/qs
+//   stream: true
+// }));
+
 
 
 //Connection Strings
@@ -53,7 +55,6 @@ var connectionMongoLab = 'mongodb://Shreyas1:monday@ds033699.mongolab.com:33699/
 
 
 //Route Handline
-
 MongoClient.connect(connectionMongoLab, function(err, db) {
 
     if (err) {

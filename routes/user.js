@@ -1,5 +1,6 @@
 var UsersHandler = require('./usersHandler').UsersHandler;
 var ContentHandler = require('./contenHandler').ContentHandler;
+var BookHandler = require('./bookHandler').BookHandler;
 var moment = require('moment');
 var downsize = require('downsize');
 
@@ -7,11 +8,12 @@ var db = "";
 
 var userHandler = "";
 var contentHandler = "";
-
+var bookHandler = "";
 
 exports.setdb = function(datab) {
     db = datab;
     userHandler = new UsersHandler(db);
+    bookHandler = new BookHandler(db);
     contentHandler = new ContentHandler(db);
 };
 
@@ -232,9 +234,13 @@ exports.addCommentToPost = function(req, res) {
 
 
 exports.showBookDashboard = function(req, res) {
-    res.render('userBookDashboard',{
-        user: req.session.userO._id,
-        loc:  req.session.userO.locationId
+    
+    bookHandler.getBooksByLocation(req.session.userO.locationId , function(err, docs) {
+        res.render('userBookDashboard',{
+            user: req.session.userO._id,
+            loc:  req.session.userO.locationId,
+            books: docs
+        });
     });
 };
 
@@ -245,35 +251,35 @@ exports.addNewBook = function(req , res) {
 };
 
 
-// exports.handleBookPost = function(req, res) {
-//     bookHandler.addBook(book, function(err, bookR) {
-//             if(err){
-                
-//             }   
-//             else{
-//                 var newpath = path.resolve(__dirname, '../public/images/Book/'+bookR._id);        
-//                 fs.mkdirp(newpath, function (err) {
-//                   if (err) {
-//                     console.error(err);
-//                   } else {
-//                     console.log('Created Directory : ' + newpath)
-//                   }
-//                 });
-//                 var newPath = newpath +"/main.jpg";
+exports.handleBookPost = function(req, res) {
+    
+    var b = req.body;
+    
+    console.log(req.body);
+    
+    var book = {
+        title : b.title,
+        author: b.author,
+        amazonLink : b.amazon,
+        description : b.describe,
+        imageLink : b.imageLink,
+        tags : b.tags,
+        tradeWith : b.intended,
+        createdAt : moment().format(),
+        bids: [],
+        locationId : req.session.userO.locationId,
+        user: req.session.userO
+    };
 
-//                 fs.move(req.files.bookImg.path, newPath, function (err) {
-//                           if (err) {
-//                             throw err;
-//                           }
-
-//                     console.log("Copied File");
-//                 });
-                
-//                 res.redirect('/user/books');
-
-//             } 
-//         });
-// };
+    bookHandler.addBook(book, function(err, bookR) {
+            if(err){
+                res.redirect('/user/');
+            }   
+            else{
+                res.redirect('/user/books');
+            } 
+        });
+};
 
 
 
