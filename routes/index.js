@@ -16,8 +16,7 @@ module.exports = exports = function(app, db) {
     app.get('/about', content.showAboutPage);
     app.get('/contact', content.showContactPage);
     app.get('/api/commentsFromPost/:id', user.getCommentsFromPost);
-    app.post('/api/commentToPost/:id' , user.isUserLog, user.addCommentToPost);
-
+    
 
     //User Routes
     app.get('/', content.showIndexPage);
@@ -60,16 +59,17 @@ module.exports = exports = function(app, db) {
 
 
     //Api Route
-    app.get('/api/getPostByTag/:tag', content.getPostByTag);
-    app.get('/stats/numberusers', user.getUsersCount);
-    app.get('/stats/numberpublishers', publisher.getPublisherCount);
-    app.get('/stats/numbermoderators', moderator.getModeratorCount);
-    app.get('/stats/numberposts', content.getPostsCount);
+    // app.get('/api/getPostByTag/:tag', content.getPostByTag);
+    // app.get('/stats/numberusers', user.getUsersCount);
+    // app.get('/stats/numberpublishers', publisher.getPublisherCount);
+    // app.get('/stats/numbermoderators', moderator.getModeratorCount);
+    // app.get('/stats/numberposts', content.getPostsCount);
     
     
         
 
-    app.post('/postUserBook', user.isUserLog, user.handleBookPost );
+    // app.post('/postUserBook', user.isUserLog, user.handleBookPost );
+    // app.post('/api/commentToPost/:id' , user.isUserLog, user.addCommentToPost);
 
 
 

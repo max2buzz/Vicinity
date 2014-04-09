@@ -8,6 +8,7 @@ var db = "";
 var userHandler = "";
 var contentHandler = "";
 
+
 exports.setdb = function(datab) {
     db = datab;
     userHandler = new UsersHandler(db);
@@ -245,35 +246,35 @@ exports.addNewBook = function(req , res) {
 };
 
 
-exports.handleBookPost = function(req, res) {
-    bookHandler.addBook(book, function(err, bookR) {
-            if(err){
+// exports.handleBookPost = function(req, res) {
+//     bookHandler.addBook(book, function(err, bookR) {
+//             if(err){
                 
-            }   
-            else{
-                var newpath = path.resolve(__dirname, '../public/images/Book/'+bookR._id);        
-                fs.mkdirp(newpath, function (err) {
-                  if (err) {
-                    console.error(err);
-                  } else {
-                    console.log('Created Directory : ' + newpath)
-                  }
-                });
-                var newPath = newpath +"/main.jpg";
+//             }   
+//             else{
+//                 var newpath = path.resolve(__dirname, '../public/images/Book/'+bookR._id);        
+//                 fs.mkdirp(newpath, function (err) {
+//                   if (err) {
+//                     console.error(err);
+//                   } else {
+//                     console.log('Created Directory : ' + newpath)
+//                   }
+//                 });
+//                 var newPath = newpath +"/main.jpg";
 
-                fs.move(req.files.bookImg.path, newPath, function (err) {
-                          if (err) {
-                            throw err;
-                          }
+//                 fs.move(req.files.bookImg.path, newPath, function (err) {
+//                           if (err) {
+//                             throw err;
+//                           }
 
-                    console.log("Copied File");
-                });
+//                     console.log("Copied File");
+//                 });
                 
-                res.redirect('/user/books');
+//                 res.redirect('/user/books');
 
-            } 
-        });
-};
+//             } 
+//         });
+// };
 
 
 
