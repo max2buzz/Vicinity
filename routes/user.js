@@ -1,5 +1,6 @@
 var UsersHandler = require('./usersHandler').UsersHandler;
 var ContentHandler = require('./contenHandler').ContentHandler;
+var BookHandler = require('./bookHandler').BookHandler;
 var moment = require('moment');
 var downsize = require('downsize');
 
@@ -7,17 +8,14 @@ var db = "";
 
 var userHandler = "";
 var contentHandler = "";
+var bookHandler = "";
 
 exports.setdb = function(datab) {
     db = datab;
     userHandler = new UsersHandler(db);
+    bookHandler = new BookHandler(db);
     contentHandler = new ContentHandler(db);
 };
-
-exports.list = function(req, res) {
-    res.send("respond with a resource");
-};
-
 
 exports.showSignUpPage = function(req, res) {
     res.render("userSignup", {
@@ -94,7 +92,8 @@ exports.handleSignUp = function(req, res) {
         name: b.name,
         gender: b.gender,
         locationId: b.location,
-        joinedAtkey: moment().format()
+        joinedAtkey: moment().format(),
+        lastLogIn: moment().format()
     };
 
     userHandler.addUser(user, function(err) {
@@ -192,6 +191,7 @@ exports.checkUserName = function(req, res) {
 
 
 exports.getCommentsFromPost = function(req, res) {
+    
     var id = req.params.id;
 
     contentHandler.getCommentsFromPost(id, function(err, comments) {
@@ -218,6 +218,7 @@ exports.addCommentToPost = function(req, res) {
             res.json(500, {
                 error: "Some Error Posting Comment"
             });
+            return;
         }
         if (result) {
             res.json(comment);
@@ -229,4 +230,61 @@ exports.addCommentToPost = function(req, res) {
     });
 
 
+};
+
+
+
+exports.showBookDashboard = function(req, res) {
+    
+    bookHandler.getBooksByLocation(req.session.userO.locationId , function(err, docs) {
+        res.render('userBookDashboard',{
+            user: req.session.userO._id,
+            loc:  req.session.userO.locationId,
+            books: docs
+        });
+    });
+};
+
+
+exports.addNewBook = function(req , res) {
+    res.render("userBookAdd",{
+           });
+};
+
+
+exports.handleBookPost = function(req, res) {
+    
+    var b = req.body;
+    
+    console.log(req.body);
+    
+    var book = {
+        title : b.title,
+        author: b.author,
+        amazonLink : b.amazon,
+        description : b.describe,
+        imageLink : b.imageLink,
+        tags : b.tags,
+        tradeWith : b.intended,
+        createdAt : moment().format(),
+        bids: [],
+        locationId : req.session.userO.locationId,
+        user: req.session.userO
+    };
+
+    bookHandler.addBook(book, function(err, bookR) {
+            if(err){
+                res.redirect('/user/');
+            }   
+            else{
+                res.redirect('/user/books');
+            } 
+        });
+};
+
+
+
+
+exports.getUsersCount = function(req, res) {
+    
 };

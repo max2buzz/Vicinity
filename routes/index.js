@@ -2,6 +2,8 @@ var user = require('./user');
 var content = require('./content');
 var publisher = require('./publisher');
 var moderator = require('./moderator');
+var fs = require('fs.extra');
+var path = require('path')
 
 module.exports = exports = function(app, db) {
 
@@ -14,14 +16,15 @@ module.exports = exports = function(app, db) {
     app.get('/about', content.showAboutPage);
     app.get('/contact', content.showContactPage);
     app.get('/api/commentsFromPost/:id', user.getCommentsFromPost);
-    app.post('/api/commentToPost/:id' , user.isUserLog, user.addCommentToPost);
-
+        
 
     //User Routes
     app.get('/', content.showIndexPage);
     app.get('/signup', user.showSignUpPage);
     app.get('/user', user.showUserDashboard);
     app.get("/user/logout", user.handleLogout);
+    app.get("/user/books", user.isUserLog ,user.showBookDashboard);
+    app.get("/user/books/new", user.isUserLog, user.addNewBook);
     app.get('/user/u/:name', user.showUserProfile);
     app.get('/user/p/:id',user.isUserLog, user.getPost);
 
@@ -29,7 +32,8 @@ module.exports = exports = function(app, db) {
     app.post('/newUserName', user.checkUserName);
     app.post("/signUpUser", user.handleSignUp);
     app.post("/user/login", user.handleLogin);
-
+    app.post('/api/commentToPost/:id' , user.isUserLog, user.addCommentToPost);
+    app.post('/postUserBook', user.isUserLog, user.handleBookPost );
 
     // Publisher Routes
     app.get('/publisher', publisher.showPubIndex);
@@ -56,6 +60,17 @@ module.exports = exports = function(app, db) {
 
 
     //Api Route
+    // app.get('/api/getPostByTag/:tag', content.getPostByTag);
+    // app.get('/stats/numberusers', user.getUsersCount);
+    // app.get('/stats/numberpublishers', publisher.getPublisherCount);
+    // app.get('/stats/numbermoderators', moderator.getModeratorCount);
+    // app.get('/stats/numberposts', content.getPostsCount);
+    
+    
+        
+
+     
+
 
 
 

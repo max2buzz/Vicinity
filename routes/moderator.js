@@ -155,3 +155,15 @@ exports.handleSing = function(req, res) {
     }
 
 };
+
+
+
+
+
+
+
+exports.getModeratorCount = function(req, res) {
+    
+};
+
+

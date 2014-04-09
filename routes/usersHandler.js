@@ -33,7 +33,7 @@ function UsersHandler(db) {
         var query = {
             userName: username
         };
-
+        console.log("In Validate User");
         users.findOne(query, function(err, doc) {
             if (err) {
                 return callback(err, null);

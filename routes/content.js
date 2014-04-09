@@ -21,3 +21,12 @@ exports.showContactPage = function(req, res) {
 	res.render('contact');
 
 };
+
+
+exports.getPostsCount = function(req, res) {
+
+};
+
+exports.getPostByTag = function(req, res) {
+    
+};

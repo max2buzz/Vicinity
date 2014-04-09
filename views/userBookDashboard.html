@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{user}} | Books</title>
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet" href="/stylesheets/foundation.min.css">
+
+  <style>
+    body{
+     background-color: #EDECE4;
+    }
+
+    .main{
+      margin-top: 1em;
+    }
+
+    .bookWrapper{
+      background-color: #FFF;
+      margin-bottom: 1em;
+      border: 1px #EDECE4 solid;
+      
+    }
+
+    .bookWrapper img{
+      margin-top: 5px;
+      margin-bottom: 5px;
+      height: 320px;
+      width: 220px;
+    }
+  
+
+
+  </style>
+
+</head>
+
+<body>
+  <nav class="top-bar " data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1>
+                    <a href="/">Vicinity <strong>Explorer</strong>
+                    </a>
+                </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+                <a href="#">
+                    <span>Menu</span>
+                </a>
+            </li>
+    </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li>
+                    <a href="#">{{user}}</a>
+                </li>
+                <li>
+                    <a href="/user/books">Books</a>
+                </li>
+                <li>
+                    <a href="#">Trending</a>
+                </li>
+                <li>
+                    <a href="/user/logout">Logout</a>
+                </li>
+
+            </ul>
+    </section>
+    </nav>
+		
+	
+	<div class="bodyWrap">
+	     
+       {% for book in books %}
+       {% if loop.first %}<div class="main row clearfix">{% endif %}
+              
+  
+       <div class="bookWrapper large-6 medium-12 columns">
+          <div class="row">
+            <div class="large-6 columns">
+              <img src="{{ book.imageLink  }}" alt="BookImage">
+            </div>
+            <div class="large-6 columns">
+              <h3><a href="{{ book._id.toString() }}">{{ book.title }}</a></h3>
+              <h3>{{ book.author  }}</h3>
+              <p class="lead">
+                {{ book.description}}
+              </p>
+              <p>
+                {{ book.createdAt }}
+              </p>
+            </div>
+          </div>
+       </div>
+
+      {% if loop.last %}</div>{% endif %}
+      {% endfor %}
+      
+      <div class="createBook large-12 columns">
+        <center><a href="/user/books/new" class="button">Create New Book</a></center>
+      </div>  
+  
+	</div>
+
+  
+
+  
+
+	<script src="/javascripts/jquery.js"></script>
+  	<script src="/javascripts/foundation.min.js"></script>
+  	<script src="/javascripts/toastr.min.js"></script>
+  	<script>
+        $(document).foundation();
+    </script>
+</body>

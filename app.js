@@ -6,6 +6,9 @@ var app = express();
 var cons = require('consolidate');
 var MongoClient = require('mongodb').MongoClient;
 
+var parted = require('parted');
+
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', cons.swig);
@@ -31,6 +34,19 @@ if ('development' == app.get('env')) {
 }
 
 
+// app.use(parted({
+//   // custom file path
+//   path: "./uploads",
+//   // memory usage limit per request
+//   limit: 30 * 1024,
+//   // disk usage limit per request
+//   diskLimit: 30 * 1024 * 1024,
+//   // enable streaming for json/qs
+//   stream: true
+// }));
+
+
+
 //Connection Strings
 var connectionStrLocal = 'mongodb://localhost:27017/Vicinity';
 
@@ -40,7 +56,7 @@ var connectionMongoLab = 'mongodb://Shreyas1:monday@ds033699.mongolab.com:33699/
 
 //Route Handline
 
-MongoClient.connect(connectionStrLocal, function(err, db) {
+MongoClient.connect(connectionMongoLab, function(err, db) {
 
     if (err) {
         console.log("DB CANT CONNECT");
