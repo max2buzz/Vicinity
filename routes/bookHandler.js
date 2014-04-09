@@ -11,21 +11,17 @@ function BookHandler(db) {
     }
 
     this.addBook = function(book, callback) {
-    	console.log("Inside Add Book");
-    	console.log(book)
-    	books.insert(book, function(err, result) {
-    		if (err) {
-    			return callback(err, null);
-    		} 
-    		else
-    		{
-    			return callback(null, result);
-    		}
-    	});
+        books.insert(book, function(err, result) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                return callback(null, result);
+            }
+        });
 
     };
 
-    this.getBooksByLocation = function(loc , callback) {
+    this.getBooksByLocation = function(loc, callback) {
         var query = {
             locationId: loc
         };
@@ -43,6 +39,24 @@ function BookHandler(db) {
 
 
     };
+
+
+    this.getBookById = function(id, callback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        books.findOne(query, function(err, doc) {
+            if (doc) {
+                return callback(null, doc);
+            }
+            if (err) {
+                throw err;
+            }
+
+        });
+    };
+
 
 
 
