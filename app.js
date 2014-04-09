@@ -40,13 +40,13 @@ var connectionMongoLab = 'mongodb://Shreyas1:monday@ds033699.mongolab.com:33699/
 
 //Route Handline
 
-MongoClient.connect(connectionMongoLab, function(err, db) {
+MongoClient.connect(connectionStrLocal, function(err, db) {
 
     if (err) {
         console.log("DB CANT CONNECT");
         throw err;
     }
-    
+
     console.log("DB CONNECTED!!");
 
     routes(app, db);
