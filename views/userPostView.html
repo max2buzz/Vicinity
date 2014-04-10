@@ -58,7 +58,7 @@
                     <a href="#">{{user}}</a>
                 </li>
                 <li>
-                    <a href="/user">{{user}}</a>
+                    <a href="/user">Events</a>
                 </li>
                 <li>
                     <a href="#">Books</a>
@@ -103,6 +103,7 @@
                 
                 <div class="render">{{body}}</div>
                 <div class="row">
+                
                 <div class="commentsSec">
                   <h4>Comments <small class="numberComments"></small></h4>
                   <div class="large-6 postCommentArea">
@@ -169,6 +170,7 @@
         $('#postComment').on('click', function() {
             var body = $(".commentBody").val();
             var toSend = {commentbody:body};
+            
             $.post('/api/commentToPost/'+id, toSend, function(data) {
                 if(data.error){
                     toastr.error("Error Posting Comment");

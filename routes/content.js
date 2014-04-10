@@ -13,13 +13,12 @@ exports.showIndexPage = function(req, res) {
 };
 
 exports.showAboutPage = function(req, res) {
-	res.render('about');
+    res.render('about');
 
 };
 
 exports.showContactPage = function(req, res) {
-	res.render('contact');
-
+    res.render('contact');
 };
 
 
@@ -28,5 +27,5 @@ exports.getPostsCount = function(req, res) {
 };
 
 exports.getPostByTag = function(req, res) {
-    
+
 };
