@@ -144,7 +144,7 @@
         var compiled = _.template(templateComment);
         
 
-        $.get('/api/commentsFromPost/'+id , function(dataR) {
+        $.get('/api/moderatorCommentsFromPost/'+id , function(dataR) {
             // console.log(_.sortBy(dataR,'postedAt'));
             $.each(dataR, function(index, data) {
                 var el = compiled({
@@ -157,24 +157,6 @@
             });
         }); 
 
-        $('#postComment').on('click', function() {
-            var body = $(".commentBody").val();
-            var toSend = {commentbody:body};
-            $.post('/api/commentToPost/'+id, toSend, function(data) {
-                if(data.error){
-                    toastr.error("Error Posting Comment");
-                }
-                var el = compiled({
-                    FirstName: data.user.first,
-                    LastName: data.user.last,
-                    time: moment(data.postedAt).fromNow(),
-                    commentbody : data.body
-                });
-                $(".commentBody").val("");
-                $(el).hide().prependTo('.commentsWrap').slideDown("slow");
-            });
-        })
-        })();
     </script>
 	
 </body>

@@ -86,13 +86,13 @@
               <img src="{{ book.imageLink  }}" alt="BookImage">
             </div>
             <div class="large-6 columns">
-              <h3><a href="{{ book._id.toString() }}">{{ book.title }}</a></h3>
+              <h3><a href="/user/books/b/{{book._id.toString()}}">{{ book.title }}</a></h3>
               <h3>{{ book.author  }}</h3>
-              <p class="lead">
+              <p class="lead description">
                 {{ book.description}}
               </p>
               <p>
-                {{ book.createdAt }}
+                {{ book.createdAt | date('l, d M Y g:i A')}}
               </p>
             </div>
           </div>
@@ -116,5 +116,10 @@
   	<script src="/javascripts/toastr.min.js"></script>
   	<script>
         $(document).foundation();
+    </script>
+    <script>
+     var descr = $('.description').html().trim().substring(0,50);
+     $('.description').html(descr + ' ...'); 
+
     </script>
 </body>

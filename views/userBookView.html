@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vicinity Explorer | Dashboard</title>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet" href="/stylesheets/foundation.min.css">
+  <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+  
+  <style>
+    
+
+    
+
+
+  </style>
+</head>
+<body>
+ <body>
+    <nav class="top-bar " data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1>
+                    <a href="/">Vicinity
+                        <strong>Explorer</strong>
+                    </a>
+                </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+                <a href="#">
+                    <span>Menu</span>
+                </a>
+            </li>
+		</ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li>
+                    <a href="#">{{user}}</a>
+                </li>
+                <li>
+                    <a href="/user">{{user}}</a>
+                </li>
+                <li>
+                    <a href="#">Books</a>
+                </li>
+                <li>
+                    <a href="#">Trending</a>
+                </li>
+                <li>
+                    <a href="/user/logout">Logout</a>
+                </li>
+            </ul>
+		</section>
+    </nav>
+    
+    <div class="row">
+        <div class="bookWrap clearfix">
+        <div class="bookholder large-12 columns">
+            <h1>{{ book.title }}</h1>
+        </div>
+        
+        <div class="imgWrap large-6 columns">
+            <img src="{{  book.imageLink }}" alt="Book Image">
+        </div>
+        
+        <div class="details large-6 columns">
+            <h3 class="subheader">By <strong>{{ book.author }}</strong></h3>
+            <h3 class><a href="{{ book.amazonLink }}">Amazon</a></h3>
+            <h3>In Trade by {{ book.user.name.first}}</h3>
+            <h4>At {{ book.createdAt | date('l, d M Y g:i A') }}</h4>
+            
+            <h3>
+                <strong>Tags</strong> : {% for tag in book.tags %}    
+                            <a href="#">#{{tag}} </a>
+                        {% endfor %}
+            </h3>
+
+            <h4>
+                <strong>In Exchange for</strong> : {% for trade in book.tradeWith %}    
+                                    {{trade}} , 
+                                  {% endfor %}
+            </h4>    
+
+        </div>
+        
+        <div class="description large-12 columns">
+            <h3>Description</h3>
+            <p class="lead">
+                {{book.description}}
+            </p>
+        </div>
+
+        </div>
+
+        <div class="bids large-8 columns">
+            <h4>Bids (<span class="numberComments"></span>)</h4>
+            <div class="commentPostArea">
+                <input type="text" id="bookName" name="bookName" placeholder="Book That you have">
+                <textarea name="commentPost" id="commentText" cols="30" rows="10" placeholder="Something About The Book"></textarea>
+                <button id="postBid">Post</button>
+            </div>
+        </div>
+        <div class="commentsWrap large-12 columns">
+            
+        </div>
+    
+    
+    </div>
+
+    
+    
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/foundation/foundation.js"></script>
+    <script src="/javascripts/foundation/foundation.reveal.js"></script>
+    <script src="/javascripts/underscore-min.js"></script>
+    <script src="/javascripts/toastr.min.js"></script>
+    <script src="/javascripts/moment.min.js"></script>
+    <script id="comment_template">
+        <div class="commentBox">
+            <h4> <%= FirstName %> <%= LastName %> Bids with <strong> <%= Book %> </strong> <small> <%= time %> </small> </h4> 
+            <p>
+                <%= commentbody %> 
+            </p>
+        </div>
+    </script>
+    <script>
+    (function(){
+        
+        var loc = window.location.href;
+        var id = loc.substring(loc.lastIndexOf('/')+1, loc.length);
+        
+
+        $.get('/api/bidsFromBook/'+id , function(dataR) {
+            $('.numberComments').html(dataR.length);
+            var templateComment = $('#comment_template').html();
+            var compiled = _.template(templateComment);
+            $.each(dataR, function(index, data) {
+                var el = compiled({
+                    FirstName: data.user.first,
+                    LastName: data.user.last,
+                    time: moment(data.postedAt).fromNow(),
+                    commentbody : data.body,
+                    Book: data.bookName
+                });
+                $(el).prependTo('.commentsWrap');
+            });
+        }); 
+
+        $('#postBid').on('click', function() {
+            
+            var bookName = $('#bookName').val();
+            var body = $("#commentText").val();
+
+            if(bookName == "" || body ==""){
+                toastr.error("Body/Book Name Required");
+                return;
+            }
+
+            var toSend = {
+                book : bookName,
+                bidText: body
+            };
+            
+            $.post('/api/bidToBookPost/'+id, toSend, function(data) {
+                if(data.error){
+                    toastr.error("Error Posting Comment");
+                }
+                var templateComment = $('#comment_template').html();
+                var compiled = _.template(templateComment);
+                var el = compiled({
+                    FirstName: data.user.first,
+                    LastName: data.user.last,
+                    time: moment(data.postedAt).fromNow(),
+                    commentbody : data.body,
+                    Book: data.bookName
+                });
+                $("#commentText").val("");
+                $("#bookName").val("");
+                $(el).hide().prependTo('.commentsWrap').slideDown("slow");
+                
+            });
+        });
+
+        })();
+    </script>
+	
+</body>
+</html>

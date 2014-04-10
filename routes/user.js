@@ -190,7 +190,7 @@ exports.checkUserName = function(req, res) {
 
 
 exports.getCommentsFromPost = function(req, res) {
-    
+
     var id = req.params.id;
 
     contentHandler.getCommentsFromPost(id, function(err, comments) {
@@ -204,6 +204,24 @@ exports.getCommentsFromPost = function(req, res) {
     });
 
 };
+
+exports.getBidsFromBook = function(req, res) {
+
+    var id = req.params.id;
+
+    bookHandler.getBidsFromBook(id, function(err, comments) {
+        if (err) {
+            res.json(500, {
+                error: "Cannot Fetch Comments"
+            });
+        } else {
+            res.json(comments);
+        }
+    });
+
+};
+
+
 
 exports.addCommentToPost = function(req, res) {
     var id = req.params.id;
@@ -231,59 +249,94 @@ exports.addCommentToPost = function(req, res) {
 
 };
 
+exports.addBidToBook = function(req, res) {
+    var id = req.params.id;
+    var comment = {
+        user: req.session.userO.name,
+        bookName : req.body.book,
+        body: req.body.bidText,
+        postedAt: moment().format()
+    };
+    bookHandler.addBidToBook(id, comment, function(err, result) {
+        if (err) {
+            res.json(500, {
+                error: "Some Error Posting Comment"
+            });
+            return;
+        }
+        if (result) {
+            res.json(comment);
+            return;
+        }
+        res.json(500, {
+            error: "Some Error Posting Comment"
+        });
+    });
+
+
+};
+
+
+
+
 
 
 exports.showBookDashboard = function(req, res) {
-    
-    bookHandler.getBooksByLocation(req.session.userO.locationId , function(err, docs) {
-        res.render('userBookDashboard',{
+
+    bookHandler.getBooksByLocation(req.session.userO.locationId, function(err, docs) {
+        res.render('userBookDashboard', {
             user: req.session.userO._id,
-            loc:  req.session.userO.locationId,
+            loc: req.session.userO.locationId,
             books: docs
         });
     });
 };
 
 
-exports.addNewBook = function(req , res) {
-    res.render("userBookAdd",{
-           });
+exports.getBook = function(req, res) {
+    var bookId = req.params.id;
+    bookHandler.getBookById(bookId, function(err, results) {
+        res.render('userBookView', {
+            user: req.session.user,
+            book: results
+        });
+    });
+};
+
+exports.addNewBook = function(req, res) {
+    res.render("userBookAdd", {});
 };
 
 
 exports.handleBookPost = function(req, res) {
-    
+
     var b = req.body;
-    
-    console.log(req.body);
-    
     var book = {
-        title : b.title,
+        title: b.title,
         author: b.author,
-        amazonLink : b.amazon,
-        description : b.describe,
-        imageLink : b.imageLink,
-        tags : b.tags,
-        tradeWith : b.intended,
-        createdAt : moment().format(),
+        amazonLink: b.amazon,
+        description: b.describe,
+        imageLink: b.imageLink,
+        tags: b.tags.split(","),
+        tradeWith: b.intended.split(","),
+        createdAt: moment().format(),
         bids: [],
-        locationId : req.session.userO.locationId,
+        locationId: req.session.userO.locationId,
         user: req.session.userO
     };
 
     bookHandler.addBook(book, function(err, bookR) {
-            if(err){
-                res.redirect('/user/');
-            }   
-            else{
-                res.redirect('/user/books');
-            } 
-        });
+        if (err) {
+            res.redirect('/user/');
+        } else {
+            res.redirect('/user/books');
+        }
+    });
 };
 
 
 
 
 exports.getUsersCount = function(req, res) {
-    
+
 };
