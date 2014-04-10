@@ -58,6 +58,38 @@ function BookHandler(db) {
     };
 
 
+    this.addBidToBook = function(id, comment, callback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        books.update(query , {
+            $push: {bids: comment}
+        }, function(err, result) {
+            if(err){
+                return callback(err, null);
+            }
+            else return callback(null, result);
+        });
+    };
+
+    this.getBidsFromBook = function(id,callback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        books.findOne(query, function(err,doc) {
+            if(doc){
+                return callback(null,doc.bids);
+            }
+            if(err){
+                return callback(err, null);
+            }
+
+        });
+    };    
+
+
 
 
 }
