@@ -26,15 +26,14 @@ exports.setdb = function(datab) {
 };
 
 exports.showDashboard = function(req, res) {
-    contentHandler.getUnmoderatedPosts(function(err,docs){
-        if(err){
-            res.render("moderatorDashboard",{
+    contentHandler.getUnmoderatedPosts(function(err, docs) {
+        if (err) {
+            res.render("moderatorDashboard", {
                 moderator: req.session.moderator.name,
                 serverError: "Cannot get Documents"
             });
-        }
-        else{
-            res.render("moderatorDashboard",{
+        } else {
+            res.render("moderatorDashboard", {
                 moderator: req.session.moderator.name,
                 posts: docs
             });
@@ -52,15 +51,33 @@ exports.handleSignUp = function(req, res) {
 };
 
 exports.postHandle = function(req, res) {
+    var id = req.params.id;
 
+    console.log('Inside Post Handler');
+    contentHandler.getPostById(id, function(err, doc) {
+        if (err) {
+            res.render('moderatorPostView', {
+                error: "Cannot Retrive Post"
+            });
+        } else {
+            res.render('moderatorPostView', {
+                moderator: req.session.moderator,
+                post: doc
+            });
+        }
+    });
 };
 
 exports.handleLogout = function(req, res) {
 
 };
 
-exports.isModLog = function(req, res) {
-
+exports.isModLog = function(req, res, next) {
+    if (req.session.moderator === undefined) {
+        res.redirect('/moderator/login');
+        return;
+    }
+    next();
 };
 
 exports.handleSing = function(req, res) {
@@ -129,28 +146,26 @@ exports.handleSing = function(req, res) {
         console.log(formdata);
         moderatorHandler.findModeratorById(b.email, function(err, doc) {
             console.log(doc);
-            if(doc){
-                if(doc.password===b.pass){
+            if (doc) {
+                if (doc.password === b.pass) {
                     req.session.moderator = doc;
                     res.json({
                         isValid: true,
                         redirectTo: "/moderator"
                     });
-                }
-                else{
+                } else {
                     res.json({
                         isValid: false,
                         error: "Username/Password mismatch"
                     });
                 }
-            }
-            else{
+            } else {
                 res.json({
                     isValid: false,
                     error: "Email is not registered to the service"
                 });
             }
-            
+
         });
     }
 
@@ -158,12 +173,20 @@ exports.handleSing = function(req, res) {
 
 
 
+exports.postAccept = function(req, res) {
+    var id = req.params.id;
+    contenHandler.changeStatus(id, 1, function(err, doc) {
+        if (doc) {
 
+        } else {
+
+        }
+
+    });
+};
 
 
 
 exports.getModeratorCount = function(req, res) {
-    
+
 };
-
-

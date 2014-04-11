@@ -58,6 +58,7 @@ module.exports = exports = function(app, db) {
     app.get('/moderator/login', moderator.showModLogin);
     app.get('/moderator/signup', moderator.handleSignUp);
     app.get('/moderator/p/:id', moderator.isModLog, moderator.postHandle);
+    app.get('/moderator/p/accept/:id', moderator.isModLog, moderator.postAccept);
     app.get('/moderator/logout', moderator.isModLog, moderator.handleLogout);
 
     app.post('/moderatorSign', moderator.handleSing);
