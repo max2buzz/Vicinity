@@ -201,7 +201,7 @@
         gender:   $('input[name="gender"]').val(),
         location: $('select[name="location"]').val()
       };
-      console.log(formdata);
+      
       $.post('/signUpUser', formdata, function(data) {
         if(data.userAdded){
           window.location = data.redirectTo;

@@ -42,11 +42,11 @@ function ContentHandler(db) {
             _id: new require('mongodb').ObjectID(id)
         };
 
-        posts.findOne(query, function(err,doc) {
-            if(doc){
-                return callback(null,doc);
+        posts.findOne(query, function(err, doc) {
+            if (doc) {
+                return callback(null, doc);
             }
-            if(err){
+            if (err) {
                 throw err;
             }
 
@@ -54,16 +54,16 @@ function ContentHandler(db) {
     };
 
 
-    this.getCommentsFromPost = function(id,callback) {
+    this.getCommentsFromPost = function(id, callback) {
         var query = {
             _id: new require('mongodb').ObjectID(id)
         };
 
-        posts.findOne(query, function(err,doc) {
-            if(doc){
-                return callback(null,doc.userComments);
+        posts.findOne(query, function(err, doc) {
+            if (doc) {
+                return callback(null, doc.userComments);
             }
-            if(err){
+            if (err) {
                 return callback(err, null);
             }
 
@@ -75,47 +75,60 @@ function ContentHandler(db) {
             _id: new require('mongodb').ObjectID(id)
         };
 
-        posts.update(query , {
-            $push: {userComments: comment}
-        }, function(err, result) {
-            if(err){
-                return callback(err, null);
+        posts.update(query, {
+            $push: {
+                userComments: comment
             }
-            else return callback(null, result);
+        }, function(err, result) {
+            if (err) {
+                return callback(err, null);
+            } else return callback(null, result);
         });
     };
 
-    this.getPostsByPublisher=function(publisherName, callback){
-        var query={
-            publishedBy:publisherName
+    this.getPostsByPublisher = function(publisherName, callback) {
+        var query = {
+            publishedBy: publisherName
         };
 
         posts.find(query).sort({
             publishedAt: -1
-        }).toArray(function (err,docs){
-            if(err){
+        }).toArray(function(err, docs) {
+            if (err) {
                 return callback(err, null);
-            }
-            else{
+            } else {
                 return callback(null, docs);
             }
         });
     };
 
-    this.getUnmoderatedPosts=function(callback){
-        var query={
+    this.getUnmoderatedPosts = function(callback) {
+        var query = {
             status: 0
         }
-        posts.find(query).toArray(function(err,docs){
-            if(err){
+        posts.find(query).toArray(function(err, docs) {
+            if (err) {
                 return callback(err, null);
-            }
-            else{
+            } else {
                 return callback(null, docs);
             }
         });
     };
-    
+
+    this.changeStatus = function(calback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        post.update(query, {
+            $set: {
+                status: 2
+            }
+        });
+
+
+    };
+
 
 }
 module.exports.ContentHandler = ContentHandler;

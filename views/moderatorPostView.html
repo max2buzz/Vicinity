@@ -8,8 +8,11 @@
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
   <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
-  
+
   <style>
+    body{
+        background-image:url("images/content/background.jpg");
+    }
     
 
     .postHeader{
@@ -30,8 +33,6 @@
 
    } 
     
-
-
   </style>
 </head>
 <body>
@@ -55,19 +56,13 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 <li>
-                    <a href="#">{{user}}</a>
+                    <a href="#">{{publisher}}</a>
                 </li>
                 <li>
-                    <a href="/user">Events</a>
+                    <a href="/publisher">{{publisher}}</a>
                 </li>
                 <li>
-                    <a href="#">Books</a>
-                </li>
-                <li>
-                    <a href="#">Trending</a>
-                </li>
-                <li>
-                    <a href="/user/logout">Logout</a>
+                    <a href="/publisher/logout">Logout</a>
                 </li>
             </ul>
 		</section>
@@ -82,33 +77,30 @@
     
         <div class="main">
             <div class="postBox small-12 medium-12 large-12 columns">
-                <h2 class="title"><center>{{title|title}}</center></h2>
+                <h2 class="title"><center>{{post.title|title}}</center></h2>
                 <div class="row">
                     <div class="large-6 columns">
-                        <p class="lead">By {{publishedBy}}</p>
-                    </div>
-                    <div class="large-6 columns">
                         <p class="datePublished">
-                            {{publishedAt|date('l, d M Y g:i A')}}
+                            {{post.publishedAt|date('l, d M Y g:i A')}}
                        </p>
                     </div>
                 </div>
                 <div class="tags">
                     <h5>Tags: 
-                        {% for tag in tags %}    
+                        {% for tag in post.tags %}    
                             <a href="#">#{{tag}} </a>
                         {% endfor %}
                      </h5>
                 </div>    
                 
-                <div class="render">{{body}}</div>
+                <div class="render">{{post.body}}</div>
                 <div class="row">
                 
-                <div class="commentsSec">
-                  <h4>Comments <small class="numberComments"></small></h4>
-                  <div class="large-6 postCommentArea">
-                    <textarea class="commentBody" placeholder="Share Your Thoughts"></textarea>
-                    <button id="postComment">Post</button>
+                <div class="Decision">
+                  <h4>Decision</h4>
+                  <div class="large-6">
+                    <button id="postAccept">Accept</button>
+                    <button id="postDeny">Deny</button>
                   </div>  
                   <div class="commentsWrap">
                         
@@ -131,62 +123,29 @@
     <script src="/javascripts/underscore-min.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
     <script src="/javascripts/moment.min.js"></script>
-    <script id="comment_template">
-        <div class="commentBox">
-            <h4> <%= FirstName %> <%= LastName %> <small> <%= time %> </small> </h4> 
-            <p>
-                <%= commentbody %> 
-            </p>
-        </div>
-    </script>
+    
     <script>
-    (function(){
         $('.render').each(function(index,el) {
             var curr = $(el).html().trim();
             var newV = marked(curr);
             $(el).html(newV);
         });
-
-        var loc = window.location.href;
-        var id = loc.substring(loc.lastIndexOf('/')+1, loc.length);
-        var templateComment = $('#comment_template').html();
-        var compiled = _.template(templateComment);
-        
-
-        $.get('/api/commentsFromPost/'+id , function(dataR) {
-            // console.log(_.sortBy(dataR,'postedAt'));
-            $('.numberComments').html(dataR.length);
-            $.each(dataR, function(index, data) {
-                var el = compiled({
-                    FirstName: data.user.first,
-                    LastName: data.user.last,
-                    time: moment(data.postedAt).fromNow(),
-                    commentbody : data.body
-                });
-                $(el).prependTo('.commentsWrap');
-            });
-        }); 
-
-        $('#postComment').on('click', function() {
-            var body = $(".commentBody").val();
-            var toSend = {commentbody:body};
-            
-            $.post('/api/commentToPost/'+id, toSend, function(data) {
-                if(data.error){
-                    toastr.error("Error Posting Comment");
-                }
-                var el = compiled({
-                    FirstName: data.user.first,
-                    LastName: data.user.last,
-                    time: moment(data.postedAt).fromNow(),
-                    commentbody : data.body
-                });
-                $(".commentBody").val("");
-                $(el).hide().prependTo('.commentsWrap').slideDown("slow");
-            });
-        })
-        })();
+     
     </script>
+
+    <script>
+        $('#postAccept').on('click',function(){
+            $.post('/moderator/p/accept/'+id,function(data) {
+                if(data.err){
+
+                }
+                else
+            });
+        });
+    </script>
+
+
+    
 	
 </body>
 </html>

@@ -224,12 +224,14 @@ exports.getBidsFromBook = function(req, res) {
 
 
 exports.addCommentToPost = function(req, res) {
+    console.log("In Comments");
     var id = req.params.id;
     var comment = {
         user: req.session.userO.name,
         body: req.body.commentbody,
         postedAt: moment().format()
     };
+
     contentHandler.addCommentFromUser(id, comment, function(err, result) {
         if (err) {
             res.json(500, {
