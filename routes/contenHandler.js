@@ -115,18 +115,32 @@ function ContentHandler(db) {
         });
     };
 
-    this.changeStatus = function(calback) {
+    this.changeStatus = function(id, calback) {
         var query = {
             _id: new require('mongodb').ObjectID(id)
         };
 
-        post.update(query, {
+        posts.update(query, {
             $set: {
                 status: 2
             }
         });
 
 
+    };
+
+    this.deletePost = function(id, callback) {
+        var query = {
+            _id: new require('mongodb').ObjectID(id)
+        };
+
+        posts.remove(query, function(err, result) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                return callback(null, result);
+            }
+        });
     };
 
 

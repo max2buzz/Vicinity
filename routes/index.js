@@ -51,7 +51,7 @@ module.exports = exports = function(app, db) {
     app.post("/newPublisherEmail", publisher.checkEmail);
     app.post('/publisher/login', publisher.handleLogin);
     app.post('/publisher/p/publish', publisher.handlePostSubmission);
-
+    app.post('/publisher/p/delete/:id', publisher.isPubLog, publisher.deletePost);
 
     //Moderator Routes
     app.get('/moderator', moderator.showDashboard);

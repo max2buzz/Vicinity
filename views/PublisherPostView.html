@@ -95,9 +95,10 @@
                   <h4>Comments</h4>
                   <div class="large-6 postCommentArea">
                     <!--<textarea class="commentBody" placeholder="Share Your Thoughts"></textarea>-->
-                    <button id="postComment">Post</button>
+                    <button class="deletePost">Delete</button>
                   </div>  
                   <div class="commentsWrap">
+                        
                         
                   </div>  
                 </div>
@@ -118,40 +119,41 @@
     <script src="/javascripts/underscore-min.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
     <script src="/javascripts/moment.min.js"></script>
-    <script id="comment_template">
-        <div class="commentBox">
-            <h4> <%= FirstName %> <%= LastName %> <small> <%= time %> </small> </h4> 
-            <p>
-                <%= commentbody %> 
-            </p>
-        </div>
-    </script>
     <script>
-    (function(){
-        $('.render').each(function(index,el) {
-            var curr = $(el).html().trim();
-            var newV = marked(curr);
-            $(el).html(newV);
-        });
-
-        var loc = window.location.href;
-        var id = loc.substring(loc.lastIndexOf('/')+1, loc.length);
-        var templateComment = $('#comment_template').html();
-        var compiled = _.template(templateComment);
+    $('.render').each(function(index,el) {
+        var curr = $(el).html().trim();
+        var newV = marked(curr);
+        $(el).html(newV);
+    });
+    var loc = window.location.href;
+    var id = loc.substring(loc.lastIndexOf('/')+1, loc.length);
         
 
-        $.get('/api/moderatorCommentsFromPost/'+id , function(dataR) {
-            // console.log(_.sortBy(dataR,'postedAt'));
-            $.each(dataR, function(index, data) {
-                var el = compiled({
-                    FirstName: data.user.first,
-                    LastName: data.user.last,
-                    time: moment(data.postedAt).fromNow(),
-                    commentbody : data.body
-                });
-                $(el).prependTo('.commentsWrap');
+        $('.deletePost').on('click', function() {
+            $.post('/publisher/p/delete/'+id, function(dataR) {
+                if(dataR.deleted == false){
+                    toastr.error("Error Deleting Post");
+                }
+                else{
+                    window.location = '/publisher';
+                }
             });
-        }); 
+        });
+
+        // var templateComment = $('#comment_template').html();
+        // var compiled = _.template(templateComment);
+       
+        // $.get('/api/moderatorCommentsFromPost/'+id , function(dataR) {
+        //     // console.log(_.sortBy(dataR,'postedAt'));
+        //     $.each(dataR, function(index, data) {
+        //         var el = compiled({
+        //             FirstName: data.user.first,
+        //             LastName: data.user.last,
+        //             time: moment(data.postedAt).fromNow(),
+        //             commentbody : data.body
+        //         });
+        //         $(el).prependTo('.commentsWrap');
+        //     });
 
     </script>
 	

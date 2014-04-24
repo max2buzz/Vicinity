@@ -43,7 +43,7 @@ exports.showPubSignup = function(req, res) {
 };
 
 exports.showPubProfile = function(req, res) {
-    
+
 };
 
 
@@ -89,7 +89,24 @@ exports.editPost = function(req, res) {
 };
 
 exports.deletePost = function(req, res) {
-
+    var id = req.params.id;
+    contentHandler.deletePost(id, function(err, result) {
+        if (error) {
+            res.json({
+                error: true,
+                deleted: false
+            });
+        }
+        if (result) {
+            res.json({
+                deleted: true
+            });
+        } else {
+            res.json({
+                deleted: false
+            });
+        }
+    });
 };
 
 
@@ -222,12 +239,13 @@ exports.handleSignUp = function(req, res) {
 
 exports.getPublisherCount = function(req, res) {
     publisherHandler.getPubCount(function(err, count) {
-        if(err){
-            res.json(500, {error:'N/A'});
-        }
-        else{
+        if (err) {
+            res.json(500, {
+                error: 'N/A'
+            });
+        } else {
             res.json({
-                number:count
+                number: count
             });
         }
     });

@@ -63,9 +63,9 @@
         {% if loop.first %}<div class="main">{% endif %}
                 
                     <div class="postBox small-12 medium-12 large-12 columns">
-                        <a href="/user/p/{{post._id.toString()}}"><h2 class="title"><center>{{post.title|title}}</center></h2></a>
+                        <a href="/publisher/p/{{post._id.toString()}}"><h2 class="title"><center>{{post.title|title}}</center></h2></a>
                         <div class="render">{{post.body}}</div>
-                        <!-- <p class="lead">By {{post.publishedBy}}</p> -->
+                        <p class="lead">By {{post.publishedBy}}</p>     
                         <p class="datePublished">
                             {{post.publishedAt|date('l, d M Y g:i A')}}
                         </p>
