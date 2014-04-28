@@ -2,7 +2,6 @@ PublisherHandler = require('./publisherHandler').PublisherHandler;
 ContentHandler = require('./contenHandler').ContentHandler;
 
 var moment = require('moment');
-
 var db = "";
 var publisherHandler = "";
 var contentHandler = "";
@@ -200,7 +199,6 @@ exports.handleLogout = function(req, res) {
         delete req.session.publisherd;
     }
     res.redirect("/publisher");
-
 };
 
 
