@@ -169,7 +169,7 @@
       console.log(formdata);
       $.post('/signUpPublisher', formdata, function(data) {
         if(data.userAdded){
-         window.location = data.redirecTo;
+         window.location = '/publisher';
         }
         else{
           toastr.error('Server Error', 'Error Signing Up');
@@ -183,8 +183,6 @@
   </script>
   <script>
     $(document).foundation();
-
   </script>
-
 </body>
 </html>

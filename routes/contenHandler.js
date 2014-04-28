@@ -37,6 +37,29 @@ function ContentHandler(db) {
 
     };
 
+
+    this.getModeratedPostByLocation = function(loc, callback) {
+        var query = {
+            location: loc,
+            status: 1
+        };
+
+        posts.find(query).sort({
+            publishedAt: -1
+        }).toArray(function(err, docs) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                return callback(null, docs);
+            }
+
+        });
+
+
+    };
+
+
+
     this.getPostById = function(id, callback) {
         var query = {
             _id: new require('mongodb').ObjectID(id)

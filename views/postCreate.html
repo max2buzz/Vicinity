@@ -37,10 +37,10 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 <li>
-                    <a href="#">{{publisher}}</a>
+                    <a href="/publisher">My Posts</a>
                 </li>
                 <li>
-                    <a href="#">Trending</a>
+                    <a href="/publisher/{{publisher}}">{{publisher}}</a>
                 </li>
                 <li>
                     <a href="/publisher/logout">Logout</a>
@@ -124,7 +124,7 @@
                         <td>[title](http://)</td>
                     </tr>
                     <tr>
-                        <td>Image <img src="images/content/meowth.gif" width="30" height="30"></td>
+                        <td>Image <img src="/images/content/meowth.gif" width="30" height="30"></td>
                         <td>![alt](http://)</td>
                     </tr>
                     <tr>
@@ -164,7 +164,7 @@
         <a class="close-reveal-modal">&#215;</a>
     </div>
     <script src="/javascripts/jquery.js"></script>
-    <script src="/javascripts/foundation/foundation.js"></script>
+    <script src="/javascripts/foundation.min.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
     <script src="/javascripts/marked.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
@@ -209,6 +209,9 @@
         }
     });    
     })();
-    </script>   
+    </script>
+    <script>
+        $(document).foundation();
+    </script>
 </body>
 </html>

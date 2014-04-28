@@ -8,7 +8,41 @@
     <link rel="stylesheet" href="/stylesheets/normalize.css">
     <link rel="stylesheet" href="/stylesheets/foundation.min.css">
     <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
+    <style type="text/css">
+        body{
+            font-family: "Open Sans",sans-serif;
+            background-color: #EDECE4;
+        }
+        .postBox{
+            background-color: #FFF;
+            border: 2px solid #EDECE4;
+            height: 200px;
+            outline: none;
+            -webkit-transition: all 0.30s ease-in-out;
+            -moz-transition: all 0.30s ease-in-out;
+            -ms-transition: all 0.30s ease-in-out;
+            -o-transition: all 0.30s ease-in-out;
+            z-index: 1;
 
+        }
+
+        .postBox:hover{
+            box-shadow: 0 0 7px #2980b9;
+            -ms-transform: scale(1.05,1.05); /* IE 9 */
+            -webkit-transform: scale(1.05,1.05); /* Chrome, Safari, Opera */
+             transform: scale(1.05,1.05);
+             z-index: 3;        
+        }
+
+        a .postBox{
+            color: black;
+        }
+        .title{
+            font-weight: bold;
+        }
+    
+
+    </style>
 
 </head>
 
@@ -34,13 +68,10 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 <li>
-                    <a href="#">{{publisher}}</a>
+                    <a href="/publisher/{{publisher}}">{{publisher}}</a>
                 </li>
                 <li>
                     <a href="/publisher/p/new">Create</a>
-                </li>
-                <li>
-                    <a href="#">Trending</a>
                 </li>
                 <li>
                     <a href="/publisher/logout">Logout</a>
@@ -49,39 +80,43 @@
             </ul>
 		</section>
     </nav>
-
+    <div class="row">
     <div class="create">
-        <a href="/publisher/p/new" class="button">Create A New Post</a>
+        <center><a href="/publisher/p/new" class="button">Create A New Post</a></center>
     </div>
-    
-
+    </div>
+    <div class="row">
     <div class="posts">
         <div class="postsHolder clearfix">
     
     
         {% for post in posts %}
-        {% if loop.first %}<div class="main">{% endif %}
+        {% if loop.first %}<div class="main clearfix">{% endif %}
                 
-                    <div class="postBox small-12 medium-12 large-12 columns">
-                        <a href="/publisher/p/{{post._id.toString()}}"><h2 class="title"><center>{{post.title|title}}</center></h2></a>
-                        <div class="render">{{post.body}}</div>
-                        <p class="lead">By {{post.publishedBy}}</p>     
-                        <p class="datePublished">
-                            {{post.publishedAt|date('l, d M Y g:i A')}}
-                        </p>
-                    </div>
+                    <a href="/publisher/p/{{post._id.toString()}}">
+                        <div class="postBox clearfix small-12 medium-12 large-6 columns">
+                            <h2 class="title"><center>{{post.title|title}}</center></h2>
+                            <div class="render">{{post.body}}</div>
+                            <p class="datePublished">
+                                {{post.publishedAt|date('l, d M Y g:i A')}}
+                            </p>
+                        </div>
+                    </a>
                 
         {% if loop.last %}</div>{% endif %}
     {% endfor %}
     </div>
     </div>
+    </div>
 
     <script src="/javascripts/jquery.js"></script>
-    <script src="/javascripts/foundation/foundation.js"></script>
+    <script src="/javascripts/foundation.min.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
     <script src="/javascripts/marked.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
     <script>
+    $(document).foundation();
+    
     (function(){
         $('.render').each(function(index,el) {
             var curr = $(el).html().trim();
@@ -92,5 +127,6 @@
         });
     })();
     </script>
+    
 </body>
 </html>

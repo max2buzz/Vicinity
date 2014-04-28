@@ -127,9 +127,6 @@
     <script src="/javascripts/bootstrap-tagsinput.min.js"></script>
     <script src="/javascripts/foundation.min.js"></script>
   	<script src="/javascripts/toastr.min.js"></script>
-  	<script>
-        $(document).foundation();
-    </script>
     <script>
     $('#imageLink').on('input', function() {
       var link = $('#imageLink').val();
@@ -142,7 +139,8 @@
         img.appendTo('.bookImage').fadeIn(400);
       }
     });
-
-
+    </script>
+    <script>
+        $(document).foundation();
     </script>
 </body>

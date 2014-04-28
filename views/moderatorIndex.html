@@ -21,6 +21,10 @@
   <link rel="stylesheet" href="/stylesheets/foundation.min.css">
   
   <style>
+  body{
+		
+		background-color: #242628;
+	}
 	
 	.signupform{
 		max-width: 530px;
@@ -93,11 +97,11 @@
 			<div class="title"><center><h3>SIGNUP</h3></center></div>
 			<div class="name"><input id="inp" name="email" type="email" placeholder="Email Address" required></div>
 			<div class="mail"><input id="inp" name="fullname" type="text" placeholder="Full Name" required></div>
-			<div class="submis"><button type="submit" class="expand mybut">LOG IN</button></div>
+			<div class="submis"><button type="submit" class="expand mybut">SIGN UP</button></div>
 			<div class="response">
 				
 			</div>
-			<div class="loginLink"><center><a href="/login">Login</a></center></div>
+			<div class="loginLink"><center><a href="/moderator/login"><h3>Login</h3></a></center></div>
 		</form>
 	</section>
 </div>
@@ -128,12 +132,14 @@ $('#login').on('submit', function(e) {
 		else{ 
 			toastr.error("ERROR: "+dataR.error);
 			$('.mybut').removeAttr("disabled");
+			$('.loginLink').fadeIn(900);
 		}
 	}); 
 });
 
 </script>
-
-
+<script>
+    $(document).foundation();
+</script>
 </body>
 </html>

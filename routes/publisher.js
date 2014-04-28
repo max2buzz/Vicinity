@@ -42,7 +42,7 @@ exports.showPubSignup = function(req, res) {
 };
 
 exports.showPubProfile = function(req, res) {
-
+    
 };
 
 
@@ -59,6 +59,7 @@ exports.getPost = function(req, res) {
                 body: doc.body,
                 tags: doc.tags,
                 publishedAt: doc.publishedAt,
+                status: doc.status
 
             });
         } else {
@@ -79,8 +80,10 @@ exports.isPubLog = function(req, res, next) {
 
 exports.createPost = function(req, res) {
     res.render("postCreate", {
-        publisher: req.session.publisherd.organizationName
+        publisher: req.session.publisherd.OrganizationName,
+                    
     });
+
 };
 
 exports.editPost = function(req, res) {

@@ -105,25 +105,20 @@
         <center><a href="/user/books/new" class="button">Create New Book</a></center>
       </div>  
   
-	</div>
-
-  
+	</div>  
 
   
 
 	<script src="/javascripts/jquery.js"></script>
   	<script src="/javascripts/foundation.min.js"></script>
   	<script src="/javascripts/toastr.min.js"></script>
-  	<script>
-        $(document).foundation();
-    </script>
     <script>
-
-
      $('.description').each(function(index , el) {
         var ss = $(el).html().trim().substring(0,50);
         $(el).html(ss+' ..');
      });
-     
+    </script>
+    <script>
+      $(document).foundation();
     </script>
 </body>

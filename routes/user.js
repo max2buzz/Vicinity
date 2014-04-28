@@ -27,7 +27,7 @@ exports.showSignUpPage = function(req, res) {
 exports.showUserDashboard = function(req, res) {
     if ((req.session.user === undefined))
         res.redirect("/");
-    contentHandler.getPostByLocation(req.session.userloc, function(err, docs) {
+    contentHandler.getModeratedPostByLocation(req.session.userloc, function(err, docs) {
         if (docs) {
 
             res.render('userDashboard', {

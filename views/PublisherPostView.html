@@ -27,7 +27,17 @@
         display: table-cell;
         vertical-align: bottom;
 
+   }
+   .denyied {
+    color: #c0392b;
+   }
+
+   .accepted {
+    color: #1abc9c;
    } 
+   .moderation{
+    color : #2980b9;
+   }
     
   </style>
 </head>
@@ -52,10 +62,10 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 <li>
-                    <a href="#">{{publisher}}</a>
+                    <a href="/publisher/{{publisher}}">{{publisher}}</a>
                 </li>
                 <li>
-                    <a href="/publisher">{{publisher}}</a>
+                    <a href="/publisher">My Posts</a>
                 </li>
                 <li>
                     <a href="/publisher/logout">Logout</a>
@@ -74,22 +84,22 @@
             <div class="postBox small-12 medium-12 large-12 columns">
                 <h2 class="title"><center>{{title|title}}</center></h2>
                 <div class="row">
+                    <div class="status">
+                        {% if status == 1 %}
+                            <div class="accepted"><center>The Post is Accepted By The Moderator</center></div> 
+                        {% endif %}
+                        {% if status == 0 %}
+                            <div class="moderation"><center>The Post is Currently Under Moderation</center></div> 
+                        {% endif %}
+                        {% if status == 2 %}
+                            <div class="denyied"><center>The Post is Denied By The Moderator</center></div> 
+                        {% endif %}
+                    </div>
                     <div class="large-6 columns">
                         <p class="datePublished">
                             {{publishedAt|date('l, d M Y g:i A')}}
                        </p>
                     </div>
-                </div>
-                <div class="status">
-                    {% if status == 1 %}
-                        <div class="accepted">The Post is Accepted By The Moderator</div> 
-                    {% endif %}
-                    {% if status == 0 %}
-                        <div class="moderation">The Post is Currently Under Moderation</div> 
-                    {% endif %}
-                    {% if status == 2 %}
-                        <div class="denyied">The Post is Denied By The Moderator</div> 
-                    {% endif %}
                 </div>
                 <div class="tags">
                     <h5>Tags: 
@@ -124,7 +134,7 @@
     
     
     <script src="/javascripts/jquery.js"></script>
-    <script src="/javascripts/foundation/foundation.js"></script>
+    <script src="/javascripts/foundation.min.js"></script>
     <script src="/javascripts/foundation/foundation.reveal.js"></script>
     <script src="/javascripts/marked.js"></script>
     <script src="/javascripts/underscore-min.js"></script>
@@ -167,6 +177,8 @@
         //     });
 
     </script>
-	
+	<script>
+        $(document).foundation();
+    </script>
 </body>
 </html>
