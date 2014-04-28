@@ -54,14 +54,16 @@ module.exports = exports = function(app, db) {
     app.post('/publisher/p/delete/:id', publisher.isPubLog, publisher.deletePost);
 
     //Moderator Routes
-    app.get('/moderator', moderator.showDashboard);
+    app.get('/moderator', moderator.isModLog, moderator.showDashboard);
     app.get('/moderator/login', moderator.showModLogin);
     app.get('/moderator/signup', moderator.handleSignUp);
     app.get('/moderator/p/:id', moderator.isModLog, moderator.postHandle);
-    app.get('/moderator/p/accept/:id', moderator.isModLog, moderator.postAccept);
     app.get('/moderator/logout', moderator.isModLog, moderator.handleLogout);
 
     app.post('/moderatorSign', moderator.handleSing);
+    app.post('/moderator/logout', moderator.handleLogout);
+    app.post('/moderator/p/accept/:id', moderator.isModLog, moderator.postAccept);
+    app.post('/moderator/p/deny/:id', moderator.isModLog, moderator.postDeny);
 
 
     //Api Route

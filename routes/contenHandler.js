@@ -105,8 +105,10 @@ function ContentHandler(db) {
     this.getUnmoderatedPosts = function(callback) {
         var query = {
             status: 0
-        }
-        posts.find(query).toArray(function(err, docs) {
+        };
+        posts.find(query).sort({
+            publishedAt: -1
+        }).toArray(function(err, docs) {
             if (err) {
                 return callback(err, null);
             } else {
@@ -115,14 +117,21 @@ function ContentHandler(db) {
         });
     };
 
-    this.changeStatus = function(id, calback) {
+    this.changeStatus = function(id, statusP, callback) {
+
         var query = {
             _id: new require('mongodb').ObjectID(id)
         };
 
         posts.update(query, {
             $set: {
-                status: 2
+                status: statusP
+            }
+        }, function(err, result) {
+            if (err) {
+                return callback(err, null);
+            } else {
+                return callback(null, result);
             }
         });
 

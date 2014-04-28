@@ -53,7 +53,6 @@ exports.handleSignUp = function(req, res) {
 exports.postHandle = function(req, res) {
     var id = req.params.id;
 
-    console.log('Inside Post Handler');
     contentHandler.getPostById(id, function(err, doc) {
         if (err) {
             res.render('moderatorPostView', {
@@ -171,19 +170,47 @@ exports.handleSing = function(req, res) {
 
 };
 
+exports.handleLogout = function(req, res) {
+    if (req.session.moderator === undefined) {
 
+    } else {
+        delete req.session.moderator;
+    }
+    res.redirect('/moderator');
+};
 
 exports.postAccept = function(req, res) {
     var id = req.params.id;
-    contenHandler.changeStatus(id, 1, function(err, doc) {
-        if (doc) {
-
+    contentHandler.changeStatus(id, 1, function(err, result) {
+        console.log(result);
+        if (result > 1) {
+            res.json({
+                accepted: true
+            });
         } else {
-
+            res.json({
+                error: true
+            });
         }
-
     });
 };
+
+exports.postDeny = function(req, res) {
+    var id = req.params.id;
+    contentHandler.changeStatus(id, 2, function(err, result) {
+        console.log(result);
+        if (result > 1) {
+            res.json({
+                deny: true
+            });
+        } else {
+            res.json({
+                error: true
+            });
+        }
+    });
+};
+
 
 
 

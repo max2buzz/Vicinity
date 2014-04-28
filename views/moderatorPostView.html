@@ -10,10 +10,7 @@
   <link href="/stylesheets/toastr.min.css" rel="stylesheet"/>
 
   <style>
-    body{
-        background-image:url("images/content/background.jpg");
-    }
-    
+
 
     .postHeader{
         margin-top: 2vh;
@@ -56,10 +53,10 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 <li>
-                    <a href="#">{{publisher}}</a>
+                    <a href="#">{{moderator}}</a>
                 </li>
                 <li>
-                    <a href="/publisher">{{publisher}}</a>
+                    <a href="/moderator">All Post</a>
                 </li>
                 <li>
                     <a href="/publisher/logout">Logout</a>
@@ -70,7 +67,7 @@
     
     <div class="row">
     
-    
+    <h1>{{error}}</h1>
     
     <div class="postsHolder clearfix">
     
@@ -101,7 +98,8 @@
                   <div class="large-6">
                     <button id="postAccept">Accept</button>
                     <button id="postDeny">Deny</button>
-                  </div>  
+                  </div>
+
                   <div class="commentsWrap">
                         
                   </div>  
@@ -109,9 +107,7 @@
                 </div>
             </div>
         </div>
-    
     </div>
-    
     </div>
 
     
@@ -123,8 +119,32 @@
     <script src="/javascripts/underscore-min.js"></script>
     <script src="/javascripts/toastr.min.js"></script>
     <script src="/javascripts/moment.min.js"></script>
-    
     <script>
+        var loc = window.location.href;
+        var id = loc.substring(loc.lastIndexOf('/')+1, loc.length);
+    
+        $('#postAccept').on('click',function(){
+            $.post('/moderator/p/accept/'+id,function(data) {
+                if(data.err){
+                    toastr.error("Some Error In Completing The Operation");
+                }
+                else{
+                    window.location = "/moderator";
+                }
+            });
+        });
+
+        $('#postDeny').on('click',function(){
+            $.post('/moderator/p/deny/'+id,function(data) {
+                if(data.err){
+                    toastr.error("Some Error In Completing The Operation");
+                }
+                else{
+                    window.location = "/moderator";
+                }
+            });
+        });
+
         $('.render').each(function(index,el) {
             var curr = $(el).html().trim();
             var newV = marked(curr);
@@ -132,16 +152,8 @@
         });
      
     </script>
-
     <script>
-        $('#postAccept').on('click',function(){
-            $.post('/moderator/p/accept/'+id,function(data) {
-                if(data.err){
-
-                }
-                else
-            });
-        });
+        $(document).foundation();
     </script>
 
 
