@@ -74,11 +74,4 @@ module.exports = exports = function(app, db) {
     // app.get('/stats/numberposts', content.getPostsCount);
 
 
-
-
-
-
-
-
-
 };

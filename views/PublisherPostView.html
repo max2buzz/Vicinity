@@ -80,6 +80,17 @@
                        </p>
                     </div>
                 </div>
+                <div class="status">
+                    {% if status == 1 %}
+                        <div class="accepted">The Post is Accepted By The Moderator</div> 
+                    {% endif %}
+                    {% if status == 0 %}
+                        <div class="moderation">The Post is Currently Under Moderation</div> 
+                    {% endif %}
+                    {% if status == 2 %}
+                        <div class="denyied">The Post is Denied By The Moderator</div> 
+                    {% endif %}
+                </div>
                 <div class="tags">
                     <h5>Tags: 
                         {% for tag in tags %}    
@@ -95,7 +106,8 @@
                   <div class="large-6 postCommentArea">
                     <!--<textarea class="commentBody" placeholder="Share Your Thoughts"></textarea>-->
                     <button class="deletePost">Delete</button>
-                  </div>  
+                  </div>
+
                   <div class="commentsWrap">
                         
                         
