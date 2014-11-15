@@ -57,7 +57,7 @@
                     <span>Menu</span>
                 </a>
             </li>
-		</ul>
+        </ul>
         <section class="top-bar-section">
             <!-- Right Nav Section -->
             <ul class="right">
@@ -71,7 +71,7 @@
                     <a href="/publisher/logout">Logout</a>
                 </li>
             </ul>
-		</section>
+        </section>
     </nav>
     
     <div class="row">
@@ -86,13 +86,13 @@
                 <div class="row">
                     <div class="status">
                         {% if status == 1 %}
-                            <div class="accepted"><center>The Post is Accepted By The Moderator</center></div> 
+                            <div class="accepted"><center>This Post is Accepted By The Moderator</center></div> 
                         {% endif %}
                         {% if status == 0 %}
-                            <div class="moderation"><center>The Post is Currently Under Moderation</center></div> 
+                            <div class="moderation"><center>This Post is Currently Under Moderation</center></div> 
                         {% endif %}
                         {% if status == 2 %}
-                            <div class="denyied"><center>The Post is Denied By The Moderator</center></div> 
+                            <div class="denyied"><center>This Post is Denied By The Moderator</center></div> 
                         {% endif %}
                     </div>
                     <div class="large-6 columns">
@@ -112,7 +112,7 @@
                 <div class="render">{{body}}</div>
                 <div class="row">
                 <div class="commentsSec">
-                  <h4>Comments</h4>
+                  <!-- <h4>Comments</h4> -->
                   <div class="large-6 postCommentArea">
                     <!--<textarea class="commentBody" placeholder="Share Your Thoughts"></textarea>-->
                     <button class="deletePost">Delete</button>
@@ -177,7 +177,7 @@
         //     });
 
     </script>
-	<script>
+    <script>
         $(document).foundation();
     </script>
 </body>
